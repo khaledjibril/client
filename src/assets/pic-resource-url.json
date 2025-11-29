@@ -1,0 +1,82 @@
+{
+  "placeholderImages": [
+    {
+      "id": "hero",
+      "description": "A stunning, sun-drenched landscape with mountains in the background, conveying a sense of adventure and beauty.",
+      "imageUrl": "https://images.unsplash.com/photo-1637587708762-55a447282a3c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxkcmFtYXRpYyUyMGxhbmRzY2FwZXxlbnwwfHx8fDE3NjExNjExNjh8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "dramatic landscape"
+    },
+    {
+      "id": "gallery-1",
+      "description": "A close-up black and white portrait of an elderly person with expressive wrinkles.",
+      "imageUrl": "https://images.unsplash.com/photo-1506863530036-1efeddceb993?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxibGFjayUyMHdoaXRlJTIwcG9ydHJhaXR8ZW58MHx8fHwxNzYxMTY0Mzg4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "black white portrait"
+    },
+    {
+      "id": "gallery-2",
+      "description": "A newly married couple laughing during their wedding reception.",
+      "imageUrl": "https://images.unsplash.com/photo-1621621667797-e06afc217fb0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHx3ZWRkaW5nJTIwY291cGxlfGVufDB8fHx8MTc2MTEzMzkxOHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "wedding couple"
+    },
+    {
+      "id": "gallery-3",
+      "description": "A vibrant city street at night with neon lights and motion blur.",
+      "imageUrl": "https://images.unsplash.com/photo-1605702012553-e954fbde66eb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxjaXR5JTIwbmlnaHR8ZW58MHx8fHwxNzYxMTU5NTcyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "city night"
+    },
+    {
+      "id": "gallery-4",
+      "description": "A minimalist architectural shot of a modern building with strong lines.",
+      "imageUrl": "https://images.unsplash.com/photo-1546349851-64285be8e9fa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxtb2Rlcm4lMjBhcmNoaXRlY3R1cmV8ZW58MHx8fHwxNzYxMDc2OTIwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "modern architecture"
+    },
+    {
+      "id": "gallery-5",
+      "description": "A family playing on a beach at sunset.",
+      "imageUrl": "https://images.unsplash.com/photo-1472586662442-3eec04b9dbda?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxmYW1pbHklMjBiZWFjaHxlbnwwfHx8fDE3NjExNTA0MDd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "family beach"
+    },
+    {
+      "id": "gallery-6",
+      "description": "A tender moment with a newborn baby's hand holding a parent's finger.",
+      "imageUrl": "https://images.unsplash.com/photo-1470116945706-e6bf5d5a53ca?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxuZXdib3JuJTIwaGFuZHxlbnwwfHx8fDE3NjExNjQzODd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "newborn hand"
+    },
+    {
+      "id": "gallery-7",
+      "description": "An abstract photo with colorful smoke patterns.",
+      "imageUrl": "https://images.unsplash.com/photo-1759269151254-3d56fc07ae45?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxhYnN0cmFjdCUyMHNtb2tlfGVufDB8fHx8MTc2MTE2NDM4N3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "abstract smoke"
+    },
+    {
+      "id": "gallery-8",
+      "description": "A high-fashion model posing in an urban environment.",
+      "imageUrl": "https://images.unsplash.com/photo-1568252542512-9fe8fe9c87bb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxmYXNoaW9uJTIwbW9kZWx8ZW58MHx8fHwxNzYxMDk2MDc5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "fashion model"
+    },
+    {
+      "id": "gallery-9",
+      "description": "A wide-angle shot of a majestic forest with tall trees.",
+      "imageUrl": "https://images.unsplash.com/photo-1477862096227-3a1bb3b08330?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxmb3Jlc3QlMjB0cmVlc3xlbnwwfHx8fDE3NjExMzk3Njl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "forest trees"
+    },
+    {
+      "id": "gallery-10",
+      "description": "A candid shot of people dancing at a concert.",
+      "imageUrl": "https://images.unsplash.com/photo-1493308903033-e622ac815e5d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxjb25jZXJ0JTIwY3Jvd2R8ZW58MHx8fHwxNzYxMDk1NTY5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "concert crowd"
+    },
+    {
+      "id": "gallery-11",
+      "description": "A pet portrait of a golden retriever in a field of flowers.",
+      "imageUrl": "https://images.unsplash.com/photo-1582001961959-aa434d61c708?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxkb2clMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjExNjQzODd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "dog portrait"
+    },
+    {
+      "id": "gallery-12",
+      "description": "Food photography of a beautifully plated dessert.",
+      "imageUrl": "https://images.unsplash.com/photo-1715690999995-c5ecdc8358e7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxkZXNzZXJ0JTIwcGxhdGV8ZW58MHx8fHwxNzYxMTY0Mzg4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "dessert plate"
+    }
+  ]
+}

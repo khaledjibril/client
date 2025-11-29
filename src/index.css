@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+/* @config "../tailwind.config.js"; */
+
+@theme {
+  --color-primary: #a68b64;
+  --color-background: #f5f5db;
+  --color-background-accent: #f7f7e3;
+  --color-secondary: #ededd4;
+  --color-tertiary: #bdb76b;
+  --color-text-foreground: #504230;
+  --color-muted-foreground: #8a775c;
+  --color-border: #ddddb5;
+}
+
+body {
+  font-family: "Literata", serif;
+}
+
+.container {
+  max-width: 120rem;
+  margin: 0 auto;
+}
+
+/* FOCUS */
+*:focus {
+  outline: none;
+
+  box-shadow: 0 0 0 0.4rem rgba(166, 138, 100, 0.4);
+}
