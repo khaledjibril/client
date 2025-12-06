@@ -35,18 +35,16 @@ const Profile = () => {
         <section className="pt-20 lg:px-[2.4rem] container">
           <div className="flex items-center flex-col gap-8 text-center sm:text-left sm:flex-row sm:gap-4 mx-6">
             <div className="rounded-[50%] w-25 h-25 sm:w-40 sm:h-40 flex items-center justify-center overflow-hidden bg-[#e4e4cc] mr-6">
-              <IoIosPerson className="text-[5rem] text-[#8a775c]" />
+              <IoIosPerson className="text-[5rem] text-muted-foreground" />
             </div>
 
             <div className="flex flex-col gap-10">
-              <h1 className="text-[1.6rem] sm:text-[2.6rem] text-[#504230] font-bold">
+              <h1 className="text-[1.6rem] sm:text-[2.6rem] text-text-foreground font-bold">
                 Welcome,{" "}
-                <span className="font-normal">
-                  {user?.fullName || "User"}
-                </span>
+                <span className="font-normal">{user?.fullName || "User"}</span>
               </h1>
 
-              <p className="text-[#8a775c]">
+              <p className="text-muted-foreground leading-6">
                 {user?.email || "no-email@example.com"}
               </p>
             </div>
@@ -54,15 +52,15 @@ const Profile = () => {
         </section>
 
         <section className="container pt-24 mx-30">
-          <div className="grid grid-cols-2 gap-4 sm:gap-0 sm:grid-cols-4 bg-[#ededd4] p-4 rounded-xl mb-8 mx-6">
+          <div className="grid grid-cols-2 gap-4 sm:gap-0 sm:grid-cols-4 bg-secondary p-4 rounded-xl mb-8 mx-6">
             {buttonsText.map((label, i) => (
               <button
                 key={i}
                 onClick={() => setBtnActive(i)}
                 className={`py-5 px-4 rounded transition ${
                   btnActive === i
-                    ? "bg-[#f5f5db] text-[#504230]"
-                    : "text-[#8a775c]"
+                    ? "bg-background text-text-foreground"
+                    : "text-muted-foreground"
                 }`}
               >
                 {label}
@@ -71,7 +69,7 @@ const Profile = () => {
           </div>
 
           {/* Dynamic Content */}
-          <div className="bg-[#f7f7e3] py-16 pb-12 px-8 sm:px-12 shadow-md border border-[#ddddb5] rounded-xl mx-6">
+          <div className="bg-background-accent py-16 pb-12 px-8 sm:px-12 shadow-md border border-border rounded-xl mx-6">
             {content[btnActive]}
           </div>
         </section>

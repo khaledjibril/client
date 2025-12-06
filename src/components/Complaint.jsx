@@ -43,10 +43,10 @@ const Complaint = () => {
   return (
     <div className="flex flex-col gap-12 sm:gap-18 text-text-foreground">
       <header className="flex flex-col gap-6 sm:gap-10">
-        <h1 className="font-bold text-[1.6rem] sm:text-[2.4rem]">
+        <h1 className="font-bold text-[1.6rem] sm:text-[2.4rem] leading-6">
           Submit a Complaint
         </h1>
-        <p className="text-muted-foreground text-[1.4rem] sm:text-[1.6rem]">
+        <p className="text-muted-foreground text-[1.4rem] sm:text-[1.6rem] leading-6">
           We are sorry for any inconvenience. Please let us know what went
           wrong.
         </p>
@@ -58,7 +58,10 @@ const Complaint = () => {
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-12">
         <div className="flex flex-col gap-2">
-          <label htmlFor="complaint" className="text-[1.6rem] font-medium">
+          <label
+            htmlFor="complaint"
+            className="text-[1.6rem] font-medium leading-6"
+          >
             Complaint Details
           </label>
 
@@ -66,14 +69,14 @@ const Complaint = () => {
             id="complaint"
             value={complaint}
             onChange={(e) => setComplaint(e.target.value)}
-            className="w-full border border-border bg-[#f5f5dc] rounded-lg min-h-50 px-4 py-4 text-[1.4rem] mt-4"
+            className="w-full border border-border bg-[#f5f5dc] rounded-lg min-h-50 px-4 py-4 text-[1.4rem] mt-4 placeholder:leading-6"
             placeholder="Please describe the issue in detail..."
           ></textarea>
         </div>
 
         <button
           type="submit"
-          className="p-8 text-white rounded-lg bg-primary hover:bg-primary/80 transition-all duration-300"
+          className="p-8 text-white rounded-lg bg-primary hover:bg-primary/80 transition-all duration-300 leading-6"
         >
           Submit Complaint
         </button>
