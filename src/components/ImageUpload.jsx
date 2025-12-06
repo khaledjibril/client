@@ -14,7 +14,7 @@ const ImageUpload = ({ label, onFileSelect }) => {
 
   return (
     <div className="flex flex-col gap-3">
-      <label className="text-[#504230]">{label}</label>
+      <label className="text-text-foreground">{label}</label>
       <div className="flex justify-center mt-5 rounded-lg border-2 border-dashed border-gray-300 px-[2.4rem] py-16">
         <div className="text-center">
           <CiImageOn className="mx-auto text-[5rem] text-gray-400" />
