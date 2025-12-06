@@ -11,13 +11,13 @@ const HeaderButton = ({ onClick, isOpen }) => {
       onClick={onClick}
     >
       {/* Menu icon (default) */}
-      <IoMdMenu
-        className={`icon-mobile-nav ${isOpen ? "hidden" : "block"}`}
-      />
+      <IoMdMenu className={`icon-mobile-nav ${isOpen ? "hidden" : "block"}`} />
 
       {/* Close icon (when nav open) */}
       <IoMdClose
-        className={`icon-mobile-nav ${isOpen ? "block" : "hidden"} border rounded-md p-4 border-[#a68b64]`}
+        className={`icon-mobile-nav ${
+          isOpen ? "block" : "hidden"
+        } border rounded-md p-4 border-primary`}
       />
     </button>
   );
