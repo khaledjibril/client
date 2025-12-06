@@ -34,7 +34,6 @@ const Order = () => {
   const messageRef = useRef(null);
   const overlayRef = useRef(null);
 
-
   // ========================================
   // SELECT OPTIONS
   // ========================================
@@ -108,10 +107,13 @@ const Order = () => {
     formData.append("address", addressData);
 
     try {
-      const res = await fetch("https://photography-server-catq.onrender.com/api/orders", {
-        method: "POST",
-        body: formData,
-      });
+      const res = await fetch(
+        "https://photography-server-catq.onrender.com/api/orders",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
 
       const data = await res.json();
 
@@ -139,7 +141,7 @@ const Order = () => {
           />
 
           <div className="container">
-            <form className="bg-[#f7f7e3] rounded-lg shadow-xl border border-[#ddddb5] mb-20 mx-6">
+            <form className="bg-background-accent rounded-lg shadow-xl border border-border mb-20 mx-6">
               <FormHeader
                 title="Your Order Details"
                 text="Upload an image and select your Preferences."
@@ -148,10 +150,15 @@ const Order = () => {
               <div className="p-[2.4rem] pt-0">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
                   {/* Image Upload */}
-                  <ImageUpload label="1. Upload Image" onFileSelect={handleImageSelect} />
+                  <ImageUpload
+                    label="1. Upload Image"
+                    onFileSelect={handleImageSelect}
+                  />
                   {preview && (
                     <div className="mt-4">
-                      <p className="text-[#504230] font-medium mb-2">Preview:</p>
+                      <p className="text-text-foreground font-medium mb-2">
+                        Preview:
+                      </p>
                       <img
                         src={preview}
                         alt="Preview"
@@ -163,33 +170,39 @@ const Order = () => {
                   {/* Order Options */}
                   <div className="space-y-6 pt-2">
                     <div className="flex flex-col gap-3">
-                      <label className="capitalize text-[#504230] font-medium">2. choose size</label>
+                      <label className="capitalize text-text-foreground font-medium">
+                        2. choose size
+                      </label>
                       <Select
                         options={sizeOptions}
                         value={selectedSize}
                         onChange={handleSizeChange}
-                        className="w-full rounded-lg border border-[#ddddb5] bg-[#f5f5dc] px-4 py-4 text-[1.4rem] mt-4"
+                        className="w-full rounded-lg border border-border bg-[#f5f5dc] px-4 py-4 text-[1.4rem] mt-4"
                       />
                     </div>
 
                     <div className="pt-4 flex flex-col gap-3">
-                      <label className="capitalize text-[#504230] font-medium">3. select frame</label>
+                      <label className="capitalize text-text-foreground font-medium">
+                        3. select frame
+                      </label>
                       <Select
                         options={frameOptions}
                         value={frame}
                         onChange={handleFrameChange}
-                        className="w-full rounded-lg border border-[#ddddb5] bg-[#f5f5dc] px-4 py-4 text-[1.4rem] mt-4"
+                        className="w-full rounded-lg border border-border bg-[#f5f5dc] px-4 py-4 text-[1.4rem] mt-4"
                       />
                     </div>
 
                     {frame === "yes" && (
                       <div className="pt-4 flex flex-col gap-3">
-                        <label className="capitalize text-[#504230] font-medium">select frame type</label>
+                        <label className="capitalize text-text-foreground font-medium">
+                          select frame type
+                        </label>
                         <Select
                           options={frameTypeOptions}
                           value={frameType}
                           onChange={handleFrameTypeChange}
-                          className="w-full rounded-lg border border-[#ddddb5] bg-[#f5f5dc] px-4 py-4 text-[1.4rem] mt-4"
+                          className="w-full rounded-lg border border-border bg-[#f5f5dc] px-4 py-4 text-[1.4rem] mt-4"
                         />
                       </div>
                     )}
@@ -198,9 +211,9 @@ const Order = () => {
 
                 <Address
                   containerClass="mt-20 flex flex-col gap-3"
-                  labelClass="capitalize text-[#504230] font-medium"
+                  labelClass="capitalize text-text-foreground font-medium"
                   title="4. shipping address"
-                  textareaClass="w-full border border-[#ddddb5] bg-[#f5f5dc] rounded-lg min-h-[10rem] px-[1rem] py-[1rem] text-[1.4rem] mt-[1rem]"
+                  textareaClass="w-full border border-border bg-[#f5f5dc] rounded-lg min-h-[10rem] px-[1rem] py-[1rem] text-[1.4rem] mt-[1rem]"
                   placeholder="Enter your full shipping address..."
                   onChange={handleAddressChange}
                 />
@@ -208,12 +221,16 @@ const Order = () => {
 
               <div className="flex justify-between items-center p-[2.4rem] bg-[#f5f5dc]/50 mb-8">
                 <div className="flex flex-col gap-12">
-                  <p className="text-[1.8rem] font-semibold text-[#504230]">total price:</p>
-                  <p className="text-[2rem] text-[#a68b64] font-bold md:text-[3.6rem]">₦{totalPrice}</p>
+                  <p className="text-[1.8rem] font-semibold text-text-foreground">
+                    total price:
+                  </p>
+                  <p className="text-[2rem] text-primary font-bold md:text-[3.6rem]">
+                    ₦{totalPrice}
+                  </p>
                 </div>
 
                 <Button
-                  className="flex items-center gap-4 text-white bg-[#a68b64] px-8 py-4 rounded-lg text-[1.6rem] hover:bg-[#af9674]"
+                  className="flex items-center gap-4 text-white bg-primary px-8 py-4 rounded-lg text-[1.6rem] hover:bg-[#af9674]"
                   type="button"
                   text="place order"
                   icon={<FaShoppingCart />}
@@ -227,7 +244,11 @@ const Order = () => {
 
       <Footer />
 
-      <PaymentInfo msgRef={messageRef} overlayRef={overlayRef} onClick={closePaymentInfo} />
+      <PaymentInfo
+        msgRef={messageRef}
+        overlayRef={overlayRef}
+        onClick={closePaymentInfo}
+      />
     </div>
   );
 };
