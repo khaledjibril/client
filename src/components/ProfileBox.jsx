@@ -16,7 +16,7 @@ const ProfileBox = forwardRef(({ title, email, text, icon, onLogout }, ref) => {
   return (
     <div
       ref={ref}
-      className="absolute hidden top-20 right-6 z-20 overflow-hidden w-100 shadow-xl transition-display duration-300 ease-in"
+      className="absolute hidden md:top-20 top-25 -right-40 md:right-10 z-20 overflow-hidden w-100 shadow-xl transition-display duration-300 ease-in"
     >
       <div className="flex-col items-center justify-center rounded-lg bg-background-accent shadow-xl border border-border overflow-hidden w-full">
         {/* Header */}
