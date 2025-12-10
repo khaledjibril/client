@@ -7,6 +7,7 @@ import AccountInfo from "../src/components/AccountInfo";
 import Orders from "../src/components/Orders";
 import Bookings from "../src/components/Bookings";
 import Complaint from "../src/components/Complaint";
+import ResetPassword from "../src/components/ResetPassword";
 
 // REACT
 import { useState, useContext } from "react";
@@ -18,13 +19,19 @@ import { IoIosPerson } from "react-icons/io";
 const Profile = () => {
   // SET AND TRACK ACTIVE ACTION BUTTON
   const [btnActive, setBtnActive] = useState(0);
-  const buttonsText = ["Account", "Order", "Booking", "Complaint"];
+  const buttonsText = ["Account", "Order", "Booking", "Complaint", "Settings"];
 
   // GET USER FROM AUTH CONTEXT
   const { user } = useContext(AuthContext);
 
   // Dynamic content
-  const content = [<AccountInfo />, <Orders />, <Bookings />, <Complaint />];
+  const content = [
+    <AccountInfo />,
+    <Orders />,
+    <Bookings />,
+    <Complaint />,
+    <ResetPassword />,
+  ];
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -52,7 +59,7 @@ const Profile = () => {
         </section>
 
         <section className="container pt-24 mx-30">
-          <div className="grid grid-cols-2 gap-4 sm:gap-0 sm:grid-cols-4 bg-secondary p-4 rounded-xl mb-8 mx-6">
+          <div className="grid grid-cols-2 gap-4 sm:gap-0 sm:grid-cols-5 bg-secondary p-4 rounded-xl mb-8 mx-6">
             {buttonsText.map((label, i) => (
               <button
                 key={i}
