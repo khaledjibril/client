@@ -7,19 +7,15 @@ import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../src/context/AuthContext";
 import { useContext } from "react";
 
-
 // ICONS
 import { IoIosPersonAdd } from "react-icons/io";
 
 // REACT
 import { useState } from "react";
-        
-
 
 const SignUp = () => {
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
-
 
   // STATE
   const [formData, setFormData] = useState({
@@ -56,20 +52,22 @@ const SignUp = () => {
 
     setLoading(true);
     try {
-const response = await fetch("https://photography-server-catq.onrender.com/api/auth/signup", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({
-    fullName,
-    phone,
-    email,
-    password,
-    confirmPassword,
-  }),
-});
-
+      const response = await fetch(
+        "https://photography-server-catq.onrender.com/api/auth/signup",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            fullName,
+            phone,
+            email,
+            password,
+            confirmPassword,
+          }),
+        }
+      );
 
       const data = await response.json();
 
@@ -78,10 +76,14 @@ const response = await fetch("https://photography-server-catq.onrender.com/api/a
         setLoading(false);
         return;
       }
-    login(
-      { id: data.user.id, fullName: data.user.fullName, email: data.user.email },
-      data.token
-    );
+      login(
+        {
+          id: data.user.id,
+          fullName: data.user.fullName,
+          email: data.user.email,
+        },
+        data.token
+      );
 
       navigate("/dashboard"); // adjust path as needed
     } catch (err) {
@@ -90,7 +92,6 @@ const response = await fetch("https://photography-server-catq.onrender.com/api/a
       setLoading(false);
     }
   };
-
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -102,12 +103,12 @@ const response = await fetch("https://photography-server-catq.onrender.com/api/a
         id="top"
       >
         <section className="flex items-center justify-center w-full h-full">
-          <div className="flex flex-col items-center justify-center w-200 mx-6 rounded-lg bg-[#f7f7e3] shadow-xl border border-[#ddddb5] my-24">
+          <div className="flex flex-col items-center justify-center w-200 mx-6 rounded-lg bg-background-accent shadow-xl border border-border my-24">
             <div className="flex flex-col p-[2.4rem] gap-8 text-center my-8">
-              <h1 className="capitalize text-[#504230] text-[3rem] font-bold">
+              <h1 className="capitalize text-text-foreground text-[3rem] font-bold">
                 Create an Account
               </h1>
-              <p className="text-[#8a775c] text-[1.4rem] mt-3">
+              <p className="text-muted-foreground text-[1.4rem] mt-3">
                 Join our community of photography lovers.
               </p>
             </div>
@@ -122,7 +123,7 @@ const response = await fetch("https://photography-server-catq.onrender.com/api/a
                 <div className="mb-16">
                   <label
                     htmlFor="fullName"
-                    className="capitalize text-[#504230] font-medium"
+                    className="capitalize text-text-foreground font-medium"
                   >
                     Full Name
                   </label>
@@ -131,7 +132,7 @@ const response = await fetch("https://photography-server-catq.onrender.com/api/a
                     id="fullName"
                     value={formData.fullName}
                     onChange={handleChange}
-                    className="flex text-[1.4rem] border border-[#ddddb5] bg-[#f5f5dc] rounded-lg p-4 w-full mt-4 placeholder:text[#8a775c]"
+                    className="flex text-[1.4rem] border border-border bg-[#f5f5dc] rounded-lg p-4 w-full mt-4 placeholder:textmuted-text-muted-foreground"
                     placeholder="John Doe"
                   />
                 </div>
@@ -139,7 +140,7 @@ const response = await fetch("https://photography-server-catq.onrender.com/api/a
                 <div className="space-y-2 mt-[2.4rem] mb-16">
                   <label
                     htmlFor="phone"
-                    className="capitalize text-[#504230] font-medium"
+                    className="capitalize text-text-foreground font-medium"
                   >
                     Phone Number
                   </label>
@@ -148,7 +149,7 @@ const response = await fetch("https://photography-server-catq.onrender.com/api/a
                     id="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="flex text-[1.4rem] border border-[#ddddb5] bg-[#f5f5dc] rounded-lg p-4 w-full mt-4 placeholder:text[#8a775c]"
+                    className="flex text-[1.4rem] border border-border bg-[#f5f5dc] rounded-lg p-4 w-full mt-4 placeholder:textmuted-text-muted-foreground"
                     placeholder="e.g., +1 (123) 456 789"
                   />
                 </div>
@@ -156,7 +157,7 @@ const response = await fetch("https://photography-server-catq.onrender.com/api/a
                 <div className="space-y-2 mt-[2.4rem] mb-16">
                   <label
                     htmlFor="email"
-                    className="capitalize text-[#504230] font-medium"
+                    className="capitalize text-text-foreground font-medium"
                   >
                     Email
                   </label>
@@ -165,7 +166,7 @@ const response = await fetch("https://photography-server-catq.onrender.com/api/a
                     id="email"
                     value={formData.email}
                     onChange={handleChange}
-                    className="flex text-[1.4rem] border border-[#ddddb5] bg-[#f5f5dc] rounded-lg p-4 w-full mt-4 placeholder:text[#8a775c]"
+                    className="flex text-[1.4rem] border border-border bg-[#f5f5dc] rounded-lg p-4 w-full mt-4 placeholder:textmuted-text-muted-foreground"
                     placeholder="e.g., you@example.com"
                   />
                 </div>
@@ -173,7 +174,7 @@ const response = await fetch("https://photography-server-catq.onrender.com/api/a
                 <div className="space-y-2 mt-[2.4rem] mb-16">
                   <label
                     htmlFor="password"
-                    className="capitalize text-[#504230] font-medium"
+                    className="capitalize text-text-foreground font-medium"
                   >
                     Password
                   </label>
@@ -182,7 +183,7 @@ const response = await fetch("https://photography-server-catq.onrender.com/api/a
                     id="password"
                     value={formData.password}
                     onChange={handleChange}
-                    className="flex text-[1.4rem] border border-[#ddddb5] bg-[#f5f5dc] rounded-lg p-4 w-full mt-4 placeholder:text[#8a775c]"
+                    className="flex text-[1.4rem] border border-border bg-[#f5f5dc] rounded-lg p-4 w-full mt-4 placeholder:textmuted-text-muted-foreground"
                     placeholder="**************"
                   />
                 </div>
@@ -190,7 +191,7 @@ const response = await fetch("https://photography-server-catq.onrender.com/api/a
                 <div className="space-y-2 mt-[2.4rem] mb-16">
                   <label
                     htmlFor="confirmPassword"
-                    className="capitalize text-[#504230] font-medium"
+                    className="capitalize text-text-foreground font-medium"
                   >
                     Confirm Password
                   </label>
@@ -199,7 +200,7 @@ const response = await fetch("https://photography-server-catq.onrender.com/api/a
                     id="confirmPassword"
                     value={formData.confirmPassword}
                     onChange={handleChange}
-                    className="flex text-[1.4rem] border border-[#ddddb5] bg-[#f5f5dc] rounded-lg p-4 w-full mt-4 placeholder:text[#8a775c]"
+                    className="flex text-[1.4rem] border border-border bg-[#f5f5dc] rounded-lg p-4 w-full mt-4 placeholder:textmuted-text-muted-foreground"
                     placeholder="Enter password again..."
                   />
                 </div>
@@ -207,7 +208,7 @@ const response = await fetch("https://photography-server-catq.onrender.com/api/a
                 <button
                   type="submit"
                   disabled={loading}
-                  className="flex items-center justify-center gap-4 text-white bg-[#a68b64] px[1rem] py-6 rounded-md mt-[2.4rem] w-full mb-16 cursor-pointer hover:bg-[#a68b64]/80 transition-all duration-300 ease-in-out"
+                  className="flex items-center justify-center gap-4 text-white bg-primary px[1rem] py-6 rounded-md mt-[2.4rem] w-full mb-16 cursor-pointer hover:bg-primary/80 transition-all duration-300 ease-in-out"
                 >
                   <IoIosPersonAdd className="text-[1.6rem]" />
                   {loading ? "Signing Up..." : "Sign Up"}
@@ -215,11 +216,11 @@ const response = await fetch("https://photography-server-catq.onrender.com/api/a
               </form>
 
               <div className="my-[2.4rem]">
-                <div className="flex justify-center items-center mt-16 text-[#8a775c]">
+                <div className="flex justify-center items-center mt-16 text-muted-foreground">
                   <p>Already have an account? </p>
                   <Link
                     to="/sign-in"
-                    className="font-semibold hover:text-[#8a775c]/60 transition-colors duration-300 ease-out focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-6"
+                    className="font-semibold hover:text-muted-foreground/60 transition-colors duration-300 ease-out focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-6"
                   >
                     Sign in
                   </Link>

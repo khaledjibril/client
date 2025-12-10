@@ -21,9 +21,10 @@ import { useNavigate } from "react-router-dom";
 const Booking = () => {
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user"));
-  const [fullName, setFullName] = useState(user?.full_name || user?.fullName || "");
+  const [fullName, setFullName] = useState(
+    user?.full_name || user?.fullName || ""
+  );
   const [email, setEmail] = useState(user?.email || "");
-
 
   // Event type
   const [event, setEvent] = useState("");
@@ -98,26 +99,32 @@ const Booking = () => {
         full_name: fullName,
         email: email,
         event_type: event === "other" ? "Other" : event,
-        custom_event: event === "other" ? document.getElementById("custom-event").value : null,
+        custom_event:
+          event === "other"
+            ? document.getElementById("custom-event").value
+            : null,
         start_date: document.getElementById("start-date").value,
         end_date: document.getElementById("end-date").value,
         start_time: document.getElementById("start-time").value,
         end_time: document.getElementById("end-time").value,
         country: eventCountry,
         state: eventCountry === "Nigeria" ? eventState : null,
-        address: document.getElementById("event-address").value
+        address: document.getElementById("event-address").value,
       };
 
       const token = localStorage.getItem("token");
 
-      const res = await fetch("https://photography-server-catq.onrender.com/api/bookings", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: token ? `Bearer ${token}` : undefined
-        },
-        body: JSON.stringify(payload)
-      });
+      const res = await fetch(
+        "https://photography-server-catq.onrender.com/api/bookings",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token ? `Bearer ${token}` : undefined,
+          },
+          body: JSON.stringify(payload),
+        }
+      );
 
       const data = await res.json();
 
@@ -126,7 +133,6 @@ const Booking = () => {
       } else {
         alert(data.message);
       }
-
     } catch (err) {
       console.log(err);
       alert("Something went wrong. Please try again.");
@@ -145,14 +151,13 @@ const Booking = () => {
             }
           />
           <div className="container">
-            <form className="bg-[#f7f7e3] rounded-lg mx-6 shadow-xl border border-[#ddddb5] mb-20">
+            <form className="bg-background-accent rounded-lg mx-6 shadow-xl border border-border mb-20">
               <FormHeader
                 title={"Your Information"}
                 text={" All fields are required unless otherwise noted."}
               />
 
               <div className="p-[2.4rem] pt-0 space-y-6">
-
                 {/* FULL NAME + EMAIL */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <FieldContainer
@@ -166,7 +171,7 @@ const Booking = () => {
                         id="full-name"
                         value={fullName}
                         readOnly
-                        className="flex border border-[#ddddb5] bg-[#e8e8cf] rounded-lg p-4 w-full mt-4 text-gray-500 cursor-not-allowed"
+                        className="flex border border-border bg-[#e8e8cf] rounded-lg p-4 w-full mt-4 text-gray-500 cursor-not-allowed"
                       />
                     }
                   />
@@ -182,7 +187,7 @@ const Booking = () => {
                         id="email"
                         value={email}
                         readOnly
-                        className="flex border border-[#ddddb5] bg-[#e8e8cf] rounded-lg p-4 w-full mt-4 text-gray-500 cursor-not-allowed"
+                        className="flex border border-border bg-[#e8e8cf] rounded-lg p-4 w-full mt-4 text-gray-500 cursor-not-allowed"
                       />
                     }
                   />
@@ -200,7 +205,7 @@ const Booking = () => {
                       value={event}
                       onChange={handleEventChange}
                       className={
-                        "w-full rounded-lg border border-[#ddddb5] bg-[#f5f5dc] px-4 py-4 text-[1.4rem] mt-4"
+                        "w-full rounded-lg border border-border bg-[#f5f5dc] px-4 py-4 text-[1.4rem] mt-4"
                       }
                     />
                   }
@@ -217,7 +222,7 @@ const Booking = () => {
                       <InputField
                         type="text"
                         className={
-                          "flex border border-[#ddddb5] bg-[#f5f5dc] rounded-lg p-4 w-full mt-4"
+                          "flex border border-border bg-[#f5f5dc] rounded-lg p-4 w-full mt-4"
                         }
                         id="custom-event"
                         placeholder={"e.g., Family Reunion"}
@@ -238,7 +243,7 @@ const Booking = () => {
                       <InputField
                         type={"date"}
                         className={
-                          "flex border border-[#ddddb5] bg-[#f5f5dc] rounded-lg p-4 w-full mt-4"
+                          "flex border border-border bg-[#f5f5dc] rounded-lg p-4 w-full mt-4"
                         }
                         id="start-date"
                         min={today}
@@ -256,7 +261,7 @@ const Booking = () => {
                       <InputField
                         type={"date"}
                         className={
-                          "flex border border-[#ddddb5] bg-[#f5f5dc] rounded-lg p-4 w-full mt-4"
+                          "flex border border-border bg-[#f5f5dc] rounded-lg p-4 w-full mt-4"
                         }
                         id="end-date"
                         min={today}
@@ -277,7 +282,7 @@ const Booking = () => {
                       <InputField
                         type={"time"}
                         className={
-                          "flex border border-[#ddddb5] bg-[#f5f5dc] rounded-lg p-4 w-full mt-4"
+                          "flex border border-border bg-[#f5f5dc] rounded-lg p-4 w-full mt-4"
                         }
                         id="start-time"
                         min="00:00"
@@ -295,7 +300,7 @@ const Booking = () => {
                       <InputField
                         type={"time"}
                         className={
-                          "flex border border-[#ddddb5] bg-[#f5f5dc] rounded-lg p-4 w-full mt-4"
+                          "flex border border-border bg-[#f5f5dc] rounded-lg p-4 w-full mt-4"
                         }
                         id="end-time"
                         min="00:00"
@@ -318,7 +323,7 @@ const Booking = () => {
                         value={eventCountry}
                         onChange={(e) => setEventCountry(e.target.value)}
                         className={
-                          "w-full rounded-lg border border-[#ddddb5] bg-[#f5f5dc] px-4 py-4 text-[1.4rem] mt-4"
+                          "w-full rounded-lg border border-border bg-[#f5f5dc] px-4 py-4 text-[1.4rem] mt-4"
                         }
                       />
                     }
@@ -336,7 +341,7 @@ const Booking = () => {
                           value={eventState}
                           onChange={(e) => setEventState(e.target.value)}
                           className={
-                            "w-full rounded-lg border border-[#ddddb5] bg-[#f5f5dc] px-4 py-4 text-[1.4rem] mt-4"
+                            "w-full rounded-lg border border-border bg-[#f5f5dc] px-4 py-4 text-[1.4rem] mt-4"
                           }
                         />
                       }
@@ -351,7 +356,7 @@ const Booking = () => {
                         <InputField
                           type={"text"}
                           className={
-                            "flex border border-[#ddddb5] bg-[#f5f5dc] rounded-lg p-4 w-full mt-4"
+                            "flex border border-border bg-[#f5f5dc] rounded-lg p-4 w-full mt-4"
                           }
                           id="country"
                           placeholder={"Enter your Country and State..."}
@@ -370,7 +375,7 @@ const Booking = () => {
                   title={"event address / location"}
                   htmlFor={"event-address"}
                   textareaClass={
-                    "w-full border border-[#ddddb5] bg-[#f5f5dc] rounded-lg min-h-[10rem] px-[1rem] py-[1rem] text-[1.4rem] mt-[1rem]"
+                    "w-full border border-border bg-[#f5f5dc] rounded-lg min-h-[10rem] px-[1rem] py-[1rem] text-[1.4rem] mt-[1rem]"
                   }
                   id={"event-address"}
                   placeholder={"Please provide the full venue and address..."}
@@ -382,7 +387,7 @@ const Booking = () => {
                 <Button
                   type={"button"}
                   className={
-                    "flex items-center justify-center gap-4 capitalize text-white bg-[#a68b64] px-4 py-6 w-full rounded-lg cursor-pointer hover:bg-[#b19a76] transition-colors duration-300 ease-in-out"
+                    "flex items-center justify-center gap-4 capitalize text-white bg-primary px-4 py-6 w-full rounded-lg cursor-pointer hover:bg-[#b19a76] transition-colors duration-300 ease-in-out"
                   }
                   onClick={submitBooking}
                   text={"Send booking request"}
@@ -406,4 +411,3 @@ const Booking = () => {
 };
 
 export default Booking;
-

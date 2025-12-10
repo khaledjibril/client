@@ -23,7 +23,9 @@ const AdminComplaints = () => {
   useEffect(() => {
     const fetchComplaints = async () => {
       try {
-        const res = await fetch("https://photography-server-catq.onrender.com/api/complaints/all");
+        const res = await fetch(
+          "https://photography-server-catq.onrender.com/api/complaints/all"
+        );
         const data = await res.json();
         setComplaintsList(data);
       } catch (err) {
@@ -35,9 +37,10 @@ const AdminComplaints = () => {
   }, []);
 
   // Filtered complaints based on search
-  const filteredComplaints = complaintsList.filter((c) =>
-    c.full_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    c.email.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredComplaints = complaintsList.filter(
+    (c) =>
+      c.full_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      c.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -85,16 +88,14 @@ const AdminComplaints = () => {
             >
               <div className="flex items-center justify-between">
                 <div className="flex flex-col gap-6">
-                  <p className="text-text-foreground">
+                  <p className="text-text-foreground leading-8">
                     Complaint from: {complaint.full_name} ({complaint.email})
                   </p>
-                  <p className="text-muted-foreground">
+                  <p className="text-muted-foreground leading-6">
                     {new Date(complaint.created_at).toLocaleString()}
                   </p>
                 </div>
-                <p>
-                  {openIndex === index ? <FaAngleUp /> : <FaAngleDown />}
-                </p>
+                <p>{openIndex === index ? <FaAngleUp /> : <FaAngleDown />}</p>
               </div>
 
               {openIndex === index && (

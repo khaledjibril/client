@@ -46,7 +46,7 @@ const Index = () => {
             <div className="flex items-center justify-center mt-8">
               <Link
                 to="/gallery"
-                className="flex items-center gap-8 text-[1.4rem] text-[#504230] bg-[#bdb76b] rounded-lg px-12 py-8 cursor-pointer hover:bg-[#a6a266] transition-colors duration-300 ease-in-out capitalize font-medium"
+                className="flex items-center gap-8 text-[1.4rem] text-text-foreground bg-tertiary rounded-lg px-12 py-8 cursor-pointer hover:bg-[#a6a266] transition-colors duration-300 ease-in-out capitalize font-medium"
               >
                 Explore the Gallery
                 <FaArrowRightLong className="text-[1.6rem]" />
@@ -69,7 +69,7 @@ const Index = () => {
         </section>
 
         {/* SECTION FROM PORTFOLIO */}
-        <section className="bg-[#ededd4] py-48">
+        <section className="bg-secondary py-48">
           <SubHeader
             title="From Our Portfolio"
             text="A glimpse into the stories we've had the honor of capturing."
@@ -91,7 +91,7 @@ const Index = () => {
           <div class="flex justify-center mt-[4.8rem]">
             <Link
               to="/gallery"
-              class="flex items-center gap-8 capitalize text-inherit text-[1.4rem] bg-[#f5f5dc] py-6 px-12 rounded-xl border border-[#ddddb5] hover:bg-[#bdb76b]"
+              class="flex items-center gap-8 capitalize text-inherit text-[1.4rem] bg-[#f5f5dc] py-6 px-12 rounded-xl border border-border hover:bg-tertiary"
             >
               view full gallery
               <FaArrowRightLong className="text-[1.6rem]" />
