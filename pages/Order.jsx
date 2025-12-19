@@ -1,6 +1,6 @@
 "use strict";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 // Components
@@ -20,23 +20,23 @@ import { FaShoppingCart } from "react-icons/fa";
 const Order = () => {
   const navigate = useNavigate();
 
-  // ========================================
-  // STATES
-  // ========================================
+  // =========================
+  // STATE
+  // =========================
   const [selectedSize, setSelectedSize] = useState("");
   const [frame, setFrame] = useState("no");
   const [frameType, setFrameType] = useState("");
   const [image, setImage] = useState(null);
-  const [preview, setPreview] = useState(null); // image preview
+  const [preview, setPreview] = useState(null);
   const [addressData, setAddressData] = useState("");
   const [totalPrice, setTotalPrice] = useState(0);
 
   const messageRef = useRef(null);
   const overlayRef = useRef(null);
 
-  // ========================================
-  // SELECT OPTIONS
-  // ========================================
+  // =========================
+  // OPTIONS
+  // =========================
   const sizeOptions = [
     { value: "", label: "Select a print size" },
     { value: "5x7", label: "5 x 7 inches (+₦4,500)" },
@@ -65,21 +65,22 @@ const Order = () => {
     { value: "Fabre wood", label: "Fabre wood" },
   ];
 
-  // ========================================
+  // =========================
   // HANDLERS
-  // ========================================
+  // =========================
   const handleSizeChange = (e) => setSelectedSize(e.target.value);
   const handleFrameChange = (e) => setFrame(e.target.value);
   const handleFrameTypeChange = (e) => setFrameType(e.target.value);
   const handleAddressChange = (e) => setAddressData(e.target.value);
+
   const handleImageSelect = (file) => {
     setImage(file);
     setPreview(URL.createObjectURL(file));
   };
 
-  // ========================================
+  // =========================
   // PAYMENT MODAL
-  // ========================================
+  // =========================
   const displayPaymentInfo = () => {
     messageRef.current.classList.remove("hidden");
     overlayRef.current.classList.remove("hidden");
@@ -90,9 +91,9 @@ const Order = () => {
     overlayRef.current.classList.add("hidden");
   };
 
-  // ========================================
-  // PLACE ORDER
-  // ========================================
+  // =========================
+  // SUBMIT
+  // =========================
   const handlePlaceOrder = async () => {
     if (!image || !selectedSize || !addressData) {
       alert("Please fill all fields");
@@ -107,13 +108,10 @@ const Order = () => {
     formData.append("address", addressData);
 
     try {
-      const res = await fetch(
-        "https://photography-server-catq.onrender.com/api/orders",
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
+      const res = await fetch("https://photography-server-catq.onrender.com/api/orders", {
+        method: "POST",
+        body: formData,
+      });
 
       const data = await res.json();
 
@@ -126,14 +124,14 @@ const Order = () => {
     }
   };
 
-  // ========================================
+  // =========================
   // RENDER
-  // ========================================
+  // =========================
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
 
-      <main className="main-content flex flex-col flex-1" id="top">
+      <main className="flex flex-col flex-1">
         <section className="pt-35">
           <SubHeader
             title="Create Your Print"
@@ -149,25 +147,20 @@ const Order = () => {
 
               <div className="p-[2.4rem] pt-0">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-                  {/* Image Upload */}
-                  <ImageUpload
-                    label="1. Upload Image"
-                    onFileSelect={handleImageSelect}
-                  />
-                  {preview && (
-                    <div className="mt-4">
-                      <p className="text-text-foreground font-medium mb-2">
-                        Preview:
-                      </p>
-                      <img
-                        src={preview}
-                        alt="Preview"
-                        className="w-full max-w-xs rounded-lg border border-gray-300"
-                      />
-                    </div>
-                  )}
 
-                  {/* Order Options */}
+                  {/* LEFT COLUMN */}
+                  <div className="flex flex-col gap-3">
+                    <label className="capitalize text-text-foreground font-medium">
+                      1. Upload Image
+                    </label>
+
+                    <ImageUpload
+                      onFileSelect={handleImageSelect}
+                      preview={preview}
+                    />
+                  </div>
+
+                  {/* RIGHT COLUMN */}
                   <div className="space-y-6 pt-2">
                     <div className="flex flex-col gap-3">
                       <label className="capitalize text-text-foreground font-medium">

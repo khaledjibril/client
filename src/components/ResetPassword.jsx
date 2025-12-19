@@ -1,78 +1,128 @@
-"use static";
+"use client";
 
-// COMPONENTS
+import { useState } from "react";
 import FieldContainer from "./FieldContainer";
 import InputField from "./InputField";
-
-// ICONS
 import { FaKey } from "react-icons/fa6";
 
 const ResetPassword = () => {
+  const [form, setForm] = useState({
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: ""
+  });
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
+  const handleChange = e => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+    setError("");
+    setSuccess("");
+
+    if (form.newPassword !== form.confirmPassword) {
+      return setError("Passwords do not match");
+    }
+
+    setLoading(true);
+
+    try {
+      const res = await fetch(
+        "http://localhost:5000/auth/change-password",
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+          },
+          body: JSON.stringify({
+            currentPassword: form.currentPassword,
+            newPassword: form.newPassword
+          })
+        }
+      );
+
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.message);
+
+      setSuccess("Password updated successfully");
+      setForm({
+        currentPassword: "",
+        newPassword: "",
+        confirmPassword: ""
+      });
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <div className="flex flex-col gap-12 sm:gap-18 text-text-foreground">
-      <header className="flex flex-col gap-6 sm:gap-10">
-        <h1 className="font-bold text-[1.6rem] sm:text-[2.4rem] leading-6">
-          Change Your Password
-        </h1>
-        <p className="text-muted-foreground text-[1.4rem] sm:text-[1.6rem] leading-6">
+    <div className="flex flex-col gap-12 text-text-foreground">
+      <header className="flex flex-col gap-6">
+        <h1 className="font-bold text-[2.4rem]">Change Your Password</h1>
+        <p className="text-muted-foreground">
           Enter your current and new password below.
         </p>
       </header>
 
-      <form className="flex flex-col gap-12">
-        <div className="flex flex-col gap-2">
-          {/* CURRENT PASSWORD */}
-          <FieldContainer
-            containerClass={"flex flex-col gap-3 mb-6"}
-            labelClass={"capitalize text-[#504230] font-medium"}
-            labelFor={"current-password"}
-            title={"Current Password"}
-            inputField={
-              <InputField
-                type="password"
-                id="current-password"
-                placeholder="Enter your current password"
-                className="flex border border-border bg-[#e8e8cf] rounded-lg p-4 w-full mt-4 text-gray-500"
-              />
-            }
-          />
-          {/* SET NEW PASSWORD */}
-          <FieldContainer
-            containerClass={"flex flex-col gap-3 mb-6"}
-            labelClass={"capitalize text-[#504230] font-medium"}
-            labelFor={"new-password"}
-            title={"New Password"}
-            inputField={
-              <InputField
-                type="password"
-                id="new-password"
-                placeholder="Enter your new password"
-                className="flex border border-border bg-[#e8e8cf] rounded-lg p-4 w-full mt-4 text-gray-500"
-              />
-            }
-          />
-          {/* CONFIRM PASSWORD */}
-          <FieldContainer
-            containerClass={"flex flex-col gap-3 mb-6"}
-            labelClass={"capitalize text-[#504230] font-medium"}
-            labelFor={"confirm-password"}
-            title={"Confirm Password"}
-            inputField={
-              <InputField
-                type="password"
-                id="confirm-password"
-                placeholder="Re-enter your new password"
-                className="flex border border-border bg-[#e8e8cf] rounded-lg p-4 w-full mt-4 text-gray-500"
-              />
-            }
-          />
-        </div>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-12">
+        <FieldContainer
+          title="Current Password"
+          inputField={
+            <InputField
+              type="password"
+              name="currentPassword"
+              value={form.currentPassword}
+              onChange={handleChange}
+              placeholder="Enter your current password"
+            />
+          }
+        />
+
+        <FieldContainer
+          title="New Password"
+          inputField={
+            <InputField
+              type="password"
+              name="newPassword"
+              value={form.newPassword}
+              onChange={handleChange}
+              placeholder="Enter your new password"
+            />
+          }
+        />
+
+        <FieldContainer
+          title="Confirm Password"
+          inputField={
+            <InputField
+              type="password"
+              name="confirmPassword"
+              value={form.confirmPassword}
+              onChange={handleChange}
+              placeholder="Re-enter your new password"
+            />
+          }
+        />
+
+        {error && <p className="text-red-500">{error}</p>}
+        {success && <p className="text-green-500">{success}</p>}
 
         <button
+          disabled={loading}
           type="submit"
-          className="p-8 text-white rounded-lg flex items-center justify-center gap-4 bg-primary hover:bg-primary/80 transition-all duration-300 leading-6"
+          className="p-8 text-white rounded-lg flex items-center justify-center gap-4 bg-primary disabled:opacity-60"
         >
-          <FaKey /> Update Password
+          <FaKey />
+          {loading ? "Updating..." : "Update Password"}
         </button>
       </form>
     </div>
