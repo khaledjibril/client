@@ -1,6 +1,6 @@
 "use strict";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 // Components
@@ -20,6 +20,12 @@ import { FaShoppingCart } from "react-icons/fa";
 const Order = () => {
   const navigate = useNavigate();
 
+    const user = JSON.parse(localStorage.getItem("user"));
+    const [fullName, setFullName] = useState(
+      user?.full_name || user?.fullName || ""
+    );
+    const [email, setEmail] = useState(user?.email || "");
+
   // =========================
   // STATE
   // =========================
@@ -28,8 +34,10 @@ const Order = () => {
   const [frameType, setFrameType] = useState("");
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
-  const [addressData, setAddressData] = useState("");
+  const [address, setAddress] = useState("");
   const [totalPrice, setTotalPrice] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const messageRef = useRef(null);
   const overlayRef = useRef(null);
@@ -59,6 +67,7 @@ const Order = () => {
   ];
 
   const frameTypeOptions = [
+    { value: "", label: "Select frame type" },
     { value: "Black wood", label: "Black wood" },
     { value: "White wood", label: "White wood" },
     { value: "Natural oak", label: "Natural oak" },
@@ -66,72 +75,118 @@ const Order = () => {
   ];
 
   // =========================
-  // HANDLERS
+  // IMAGE HANDLER
   // =========================
-  const handleSizeChange = (e) => setSelectedSize(e.target.value);
-  const handleFrameChange = (e) => setFrame(e.target.value);
-  const handleFrameTypeChange = (e) => setFrameType(e.target.value);
-  const handleAddressChange = (e) => setAddressData(e.target.value);
-
   const handleImageSelect = (file) => {
     setImage(file);
     setPreview(URL.createObjectURL(file));
   };
 
   // =========================
-  // PAYMENT MODAL
+  // LIVE PRICING
   // =========================
-  const displayPaymentInfo = () => {
-    messageRef.current.classList.remove("hidden");
-    overlayRef.current.classList.remove("hidden");
+  const calculatePrice = async () => {
+    if (!selectedSize) {
+      setTotalPrice(0);
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setError("");
+
+      const response = await fetch("http://localhost:5000/api/pricing", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          size: selectedSize,
+          frame,
+          frameType: frame === "yes" ? frameType : null,
+        }),
+      });
+      console.log("starting...")
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Pricing calculation failed");
+      }
+
+      setTotalPrice(data.totalPrice);
+    } catch (err) {
+      console.error(err);
+      setError("Failed to calculate price");
+      setTotalPrice(0);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const closePaymentInfo = () => {
-    messageRef.current.classList.add("hidden");
-    overlayRef.current.classList.add("hidden");
-  };
+  // Trigger live pricing
+  useEffect(() => {
+    calculatePrice();
+  }, [selectedSize, frame, frameType]);
 
   // =========================
-  // SUBMIT
+  // PLACE ORDER
   // =========================
   const handlePlaceOrder = async () => {
-    if (!image || !selectedSize || !addressData) {
-      alert("Please fill all fields");
+    if (!image || !selectedSize || !address) {
+      alert("Please complete all required fields");
       return;
     }
 
     const formData = new FormData();
+    formData.append("full_name", fullName);
+    formData.append("email", email);
     formData.append("image", image);
     formData.append("size", selectedSize);
     formData.append("frame", frame);
-    formData.append("frameType", frameType);
-    formData.append("address", addressData);
+    formData.append("frameType", frame === "yes" ? frameType : "");
+    formData.append("address", address);
+    formData.append("totalPrice", totalPrice);
 
     try {
-      const res = await fetch("https://photography-server-catq.onrender.com/api/orders", {
+      const response = await fetch("http://localhost:5000/api/orders", {
         method: "POST",
         body: formData,
       });
 
-      const data = await res.json();
+      const data = await response.json();
 
-      if (data.order) {
-        setTotalPrice(data.order.total_price);
-        displayPaymentInfo();
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to place order");
       }
+
+      displayPaymentInfo();
     } catch (error) {
-      console.log("ORDER SUBMIT ERROR:", error);
+      console.error(error);
+      alert("Order failed. Please try again.");
     }
+  };
+
+  // =========================
+  // PAYMENT MODAL
+  // =========================
+  const displayPaymentInfo = () => {
+    messageRef.current?.classList.remove("hidden");
+    overlayRef.current?.classList.remove("hidden");
+  };
+
+  const closePaymentInfo = () => {
+    messageRef.current?.classList.add("hidden");
+    overlayRef.current?.classList.add("hidden");
   };
 
   // =========================
   // RENDER
   // =========================
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex min-h-screen flex-col">
       <Header />
 
-      <main className="flex flex-col flex-1">
+      <main className="flex flex-1 flex-col">
         <section className="pt-35">
           <SubHeader
             title="Create Your Print"
@@ -139,95 +194,95 @@ const Order = () => {
           />
 
           <div className="container">
-            <form className="bg-background-accent rounded-lg shadow-xl border border-border mb-20 mx-6">
+            <form className="mx-6 mb-20 rounded-lg border border-border bg-background-accent shadow-xl">
               <FormHeader
                 title="Your Order Details"
-                text="Upload an image and select your Preferences."
+                text="Upload an image and select your preferences."
               />
 
               <div className="p-[2.4rem] pt-0">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-
-                  {/* LEFT COLUMN */}
+                <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+                  {/* IMAGE */}
                   <div className="flex flex-col gap-3">
-                    <label className="capitalize text-text-foreground font-medium">
-                      1. Upload Image
+                    <label className="font-medium capitalize text-text-foreground">
+                      1. upload image
                     </label>
-
                     <ImageUpload
                       onFileSelect={handleImageSelect}
                       preview={preview}
                     />
                   </div>
 
-                  {/* RIGHT COLUMN */}
+                  {/* OPTIONS */}
                   <div className="space-y-6 pt-2">
                     <div className="flex flex-col gap-3">
-                      <label className="capitalize text-text-foreground font-medium">
+                      <label className="font-medium capitalize text-text-foreground">
                         2. choose size
                       </label>
                       <Select
                         options={sizeOptions}
                         value={selectedSize}
-                        onChange={handleSizeChange}
-                        className="w-full rounded-lg border border-border bg-[#f5f5dc] px-4 py-4 text-[1.4rem] mt-4"
+                        onChange={(e) => setSelectedSize(e.target.value)}
+                        className="mt-4 w-full rounded-lg border border-border bg-[#f5f5dc] px-4 py-4 text-[1.4rem]"
                       />
                     </div>
 
-                    <div className="pt-4 flex flex-col gap-3">
-                      <label className="capitalize text-text-foreground font-medium">
+                    <div className="flex flex-col gap-3 pt-4">
+                      <label className="font-medium capitalize text-text-foreground">
                         3. select frame
                       </label>
                       <Select
                         options={frameOptions}
                         value={frame}
-                        onChange={handleFrameChange}
-                        className="w-full rounded-lg border border-border bg-[#f5f5dc] px-4 py-4 text-[1.4rem] mt-4"
+                        onChange={(e) => setFrame(e.target.value)}
+                        className="mt-4 w-full rounded-lg border border-border bg-[#f5f5dc] px-4 py-4 text-[1.4rem]"
                       />
                     </div>
 
                     {frame === "yes" && (
-                      <div className="pt-4 flex flex-col gap-3">
-                        <label className="capitalize text-text-foreground font-medium">
-                          select frame type
+                      <div className="flex flex-col gap-3 pt-4">
+                        <label className="font-medium capitalize text-text-foreground">
+                          frame type
                         </label>
                         <Select
                           options={frameTypeOptions}
                           value={frameType}
-                          onChange={handleFrameTypeChange}
-                          className="w-full rounded-lg border border-border bg-[#f5f5dc] px-4 py-4 text-[1.4rem] mt-4"
+                          onChange={(e) => setFrameType(e.target.value)}
+                          className="mt-4 w-full rounded-lg border border-border bg-[#f5f5dc] px-4 py-4 text-[1.4rem]"
                         />
                       </div>
                     )}
                   </div>
                 </div>
 
+                {/* ADDRESS */}
                 <Address
-                  containerClass="mt-20 flex flex-col gap-3"
-                  labelClass="capitalize text-text-foreground font-medium"
                   title="4. shipping address"
-                  textareaClass="w-full border border-border bg-[#f5f5dc] rounded-lg min-h-[10rem] px-[1rem] py-[1rem] text-[1.4rem] mt-[1rem]"
                   placeholder="Enter your full shipping address..."
-                  onChange={handleAddressChange}
+                  onChange={setAddress}
+                  containerClass="mt-20 flex flex-col gap-3"
+                  labelClass="font-medium capitalize text-text-foreground"
+                  textareaClass="mt-4 min-h-[10rem] w-full rounded-lg border border-border bg-[#f5f5dc] px-4 py-4 text-[1.4rem]"
                 />
               </div>
 
-              <div className="flex justify-between items-center p-[2.4rem] bg-[#f5f5dc]/50 mb-8">
-                <div className="flex flex-col gap-12">
-                  <p className="text-[1.8rem] font-semibold text-text-foreground">
-                    total price:
-                  </p>
-                  <p className="text-[2rem] text-primary font-bold md:text-[3.6rem]">
-                    ₦{totalPrice}
-                  </p>
+              {/* FOOTER */}
+              <div className="mb-8 flex items-center justify-between bg-[#f5f5dc]/50 p-[2.4rem]">
+                <div>
+                  <span className="text-[1.8rem] font-semibold text-text-foreground">
+                    Total price:
+                  </span>
+                  <span className="text-[5rem] font-bold text-primary md:text-[2.6rem]">
+                    {loading ? "Calculating..." : `₦${totalPrice.toLocaleString()}`}
+                  </span>
                 </div>
 
                 <Button
-                  className="flex items-center gap-4 text-white bg-primary px-8 py-4 rounded-lg text-[1.6rem] hover:bg-[#af9674]"
                   type="button"
                   text="place order"
                   icon={<FaShoppingCart />}
                   onClick={handlePlaceOrder}
+                  className="flex items-center gap-4 rounded-lg bg-primary px-8 py-4 text-[1.6rem] text-white hover:bg-[#af9674]"
                 />
               </div>
             </form>
