@@ -13,7 +13,7 @@ const AdminOrders = () => {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/admin/orders")
+    fetch("https://photography-server-catq.onrender.com/api/admin/orders")
       .then(res => res.json())
       .then(data => setOrders(data))
       .catch(err => console.error(err));
@@ -21,7 +21,7 @@ const AdminOrders = () => {
 
   const handleDownload = (orderId) => {
     window.open(
-      `http://localhost:5000/api/orders/${orderId}/download`,
+      `https://photography-server-catq.onrender.com/api/orders/${orderId}/download`,
       "_blank"
     );
   };

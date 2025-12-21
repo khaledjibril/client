@@ -95,7 +95,7 @@ const Order = () => {
       setLoading(true);
       setError("");
 
-      const response = await fetch("http://localhost:5000/api/pricing", {
+      const response = await fetch("https://photography-server-catq.onrender.com/api/pricing", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -148,7 +148,7 @@ const Order = () => {
     formData.append("totalPrice", totalPrice);
 
     try {
-      const response = await fetch("http://localhost:5000/api/orders", {
+      const response = await fetch("https://photography-server-catq.onrender.com/api/orders", {
         method: "POST",
         body: formData,
       });
