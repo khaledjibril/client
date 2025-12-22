@@ -4,7 +4,7 @@ const AdminPrivilege = ({ user, onUpdate }) => {
     onUpdate(user.id, isAdmin);
 
     try {
-      await fetch(`http://localhost:5000/api/users/${user.id}/role`, {
+      await fetch(`https://photography-server-catq.onrender.com/api/users/${user.id}/role`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ is_admin: isAdmin })
