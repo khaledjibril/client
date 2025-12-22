@@ -16,7 +16,9 @@ const AdminBookings = () => {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const res = await axios.get("https://photography-server-catq.onrender.com/api/admin/bookings");
+        const res = await axios.get(
+          "https://photography-server-catq.onrender.com/api/admin/bookings"
+        );
         setBookings(res.data || []);
       } catch (error) {
         console.error("Error fetching bookings:", error);
@@ -73,6 +75,9 @@ const AdminBookings = () => {
                   Event Date
                 </th>
                 <th className="h-12 p-8 text-left text-2xl font-medium text-muted-foreground">
+                  Event Time
+                </th>
+                <th className="h-12 p-8 text-left text-2xl font-medium text-muted-foreground">
                   Event State
                 </th>
                 <th className="h-12 p-8 text-right text-2xl font-medium text-muted-foreground">
@@ -90,6 +95,10 @@ const AdminBookings = () => {
                   <td className="p-8">{b.customer_email}</td>
                   <td className="p-8">{b.event_type}</td>
                   <td className="p-8">{b.event_date}</td>
+                  {/* Replace BELOW with event_startTime and event_endTime */}
+                  <td className="p-8">
+                    From {b.event_state} - To {b.event_state}
+                  </td>
                   <td className="p-8">{b.event_state}</td>
                   <td className="p-8 text-right">{b.address}</td>
                 </tr>
