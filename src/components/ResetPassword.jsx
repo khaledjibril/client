@@ -9,18 +9,18 @@ const ResetPassword = () => {
   const [form, setForm] = useState({
     currentPassword: "",
     newPassword: "",
-    confirmPassword: ""
+    confirmPassword: "",
   });
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setSuccess("");
@@ -32,20 +32,17 @@ const ResetPassword = () => {
     setLoading(true);
 
     try {
-      const res = await fetch(
-        "http://localhost:5000/auth/change-password",
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`
-          },
-          body: JSON.stringify({
-            currentPassword: form.currentPassword,
-            newPassword: form.newPassword
-          })
-        }
-      );
+      const res = await fetch("http://localhost:5000/auth/change-password", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({
+          currentPassword: form.currentPassword,
+          newPassword: form.newPassword,
+        }),
+      });
 
       const data = await res.json();
 
@@ -55,7 +52,7 @@ const ResetPassword = () => {
       setForm({
         currentPassword: "",
         newPassword: "",
-        confirmPassword: ""
+        confirmPassword: "",
       });
     } catch (err) {
       setError(err.message);
@@ -67,14 +64,17 @@ const ResetPassword = () => {
   return (
     <div className="flex flex-col gap-12 text-text-foreground">
       <header className="flex flex-col gap-6">
-        <h1 className="font-bold text-[2.4rem]">Change Your Password</h1>
-        <p className="text-muted-foreground">
+        <h1 className="font-bold text-[2.4rem] leading-10">
+          Change Your Password
+        </h1>
+        <p className="text-muted-foreground leading-6">
           Enter your current and new password below.
         </p>
       </header>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-12">
         <FieldContainer
+          containerClass={"flex flex-col gap-6"}
           title="Current Password"
           inputField={
             <InputField
@@ -82,6 +82,7 @@ const ResetPassword = () => {
               name="currentPassword"
               value={form.currentPassword}
               onChange={handleChange}
+              className={"border-2 border-border rounded-lg p-2"}
               placeholder="Enter your current password"
             />
           }
@@ -89,12 +90,14 @@ const ResetPassword = () => {
 
         <FieldContainer
           title="New Password"
+          containerClass={"flex flex-col gap-6"}
           inputField={
             <InputField
               type="password"
               name="newPassword"
               value={form.newPassword}
               onChange={handleChange}
+              className={"border-2 border-border rounded-lg p-2"}
               placeholder="Enter your new password"
             />
           }
@@ -102,12 +105,14 @@ const ResetPassword = () => {
 
         <FieldContainer
           title="Confirm Password"
+          containerClass={"flex flex-col gap-6"}
           inputField={
             <InputField
               type="password"
               name="confirmPassword"
               value={form.confirmPassword}
               onChange={handleChange}
+              className={"border-2 border-border rounded-lg p-2"}
               placeholder="Re-enter your new password"
             />
           }
@@ -119,7 +124,7 @@ const ResetPassword = () => {
         <button
           disabled={loading}
           type="submit"
-          className="p-8 text-white rounded-lg flex items-center justify-center gap-4 bg-primary disabled:opacity-60"
+          className="p-6 leading-6 sm:p-8 text-white rounded-lg flex items-center justify-center gap-4 bg-primary disabled:opacity-60"
         >
           <FaKey />
           {loading ? "Updating..." : "Update Password"}
