@@ -92,24 +92,34 @@ const Booking = () => {
     overlayRef.current.classList.add("hidden");
   };
 
+  // EVENT DETAILS
+  const [customEvent, setCustomEvent] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
+  const [address, setAddress] = useState("");
+  const [otherCountry, setOtherCountry] = useState("");
+
+  // LOADING STATE
+  const [loading, setLoading] = useState(false);
+
   // SUBMIT BOOKING
   const submitBooking = async () => {
+    setLoading(true);
     try {
       const payload = {
         full_name: fullName,
         email: email,
         event_type: event === "other" ? "Other" : event,
-        custom_event:
-          event === "other"
-            ? document.getElementById("custom-event").value
-            : null,
-        start_date: document.getElementById("start-date").value,
-        end_date: document.getElementById("end-date").value,
-        start_time: document.getElementById("start-time").value,
-        end_time: document.getElementById("end-time").value,
+        custom_event: event === "other" ? customEvent : null,
+        start_date: startDate,
+        end_date: endDate,
+        start_time: startTime,
+        end_time: endTime,
         country: eventCountry,
         state: eventCountry === "Nigeria" ? eventState : null,
-        address: document.getElementById("event-address").value,
+        address: address,
       };
 
       const token = localStorage.getItem("token");
@@ -137,6 +147,8 @@ const Booking = () => {
     } catch (err) {
       console.log(err);
       alert("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -147,14 +159,13 @@ const Booking = () => {
     setEvent("");
     setEventState("");
     setEventCountry("");
-
-    // Clear uncontrolled inputs manually
-    document.getElementById("custom-event").value = "";
-    document.getElementById("start-date").value = "";
-    document.getElementById("end-date").value = "";
-    document.getElementById("start-time").value = "";
-    document.getElementById("end-time").value = "";
-    document.getElementById("event-address").value = "";
+    setCustomEvent("");
+    setStartDate("");
+    setEndDate("");
+    setStartTime("");
+    setEndTime("");
+    setAddress("");
+    setOtherCountry("");
   };
 
   return (
@@ -242,6 +253,8 @@ const Booking = () => {
                         className={
                           "flex border border-border bg-[#f5f5dc] rounded-lg p-4 w-full mt-4"
                         }
+                        value={customEvent}
+                        onChange={(e) => setCustomEvent(e.target.value)}
                         id="custom-event"
                         placeholder={"e.g., Family Reunion"}
                         required
@@ -263,6 +276,8 @@ const Booking = () => {
                         className={
                           "flex border border-border bg-[#f5f5dc] rounded-lg p-4 w-full mt-4"
                         }
+                        value={startDate}
+                        onChange={(e) => setStartDate(e.target.value)}
                         id="start-date"
                         min={today}
                         required
@@ -281,6 +296,8 @@ const Booking = () => {
                         className={
                           "flex border border-border bg-[#f5f5dc] rounded-lg p-4 w-full mt-4"
                         }
+                        value={endDate}
+                        onChange={(e) => setEndDate(e.target.value)}
                         id="end-date"
                         min={today}
                         required
@@ -302,6 +319,8 @@ const Booking = () => {
                         className={
                           "flex border border-border bg-[#f5f5dc] rounded-lg p-4 w-full mt-4"
                         }
+                        value={startTime}
+                        onChange={(e) => setStartTime(e.target.value)}
                         id="start-time"
                         min="00:00"
                         max="23:00"
@@ -320,6 +339,8 @@ const Booking = () => {
                         className={
                           "flex border border-border bg-[#f5f5dc] rounded-lg p-4 w-full mt-4"
                         }
+                        value={endTime}
+                        onChange={(e) => setEndTime(e.target.value)}
                         id="end-time"
                         min="00:00"
                         max="23:00"
@@ -376,6 +397,8 @@ const Booking = () => {
                           className={
                             "flex border border-border bg-[#f5f5dc] rounded-lg p-4 w-full mt-4"
                           }
+                          value={otherCountry}
+                          onChange={(e) => setOtherCountry(e.target.value)}
                           id="country"
                           placeholder={"Enter your Country and State..."}
                         />
@@ -395,6 +418,8 @@ const Booking = () => {
                   textareaClass={
                     "w-full border border-border bg-[#f5f5dc] rounded-lg min-h-[10rem] px-[1rem] py-[1rem] text-[1.4rem] mt-[1rem] placeholder:text-muted-foreground placeholder:leading-6"
                   }
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
                   id={"event-address"}
                   placeholder={"Please provide the full venue and address..."}
                 />
@@ -404,11 +429,12 @@ const Booking = () => {
               <div className="flex items-center justify-center p-[2.4rem] pt-0">
                 <Button
                   type={"button"}
+                  disabled={loading}
                   className={
                     "flex items-center justify-center gap-4 capitalize text-white bg-primary px-4 py-4 sm:py-6 w-full rounded-lg cursor-pointer hover:bg-[#b19a76] transition-colors duration-300 ease-in-out leading-6 sm:leading-0"
                   }
                   onClick={submitBooking}
-                  text={"Send booking request"}
+                  text={loading ? "Sending..." : "Send booking request"}
                   icon={<FaPaperPlane />}
                 />
               </div>
