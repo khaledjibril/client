@@ -130,6 +130,7 @@ const Booking = () => {
 
       if (res.ok) {
         displayPaymentInfo();
+        resetForm(); // Reset form after successful booking
       } else {
         alert(data.message);
       }
@@ -137,6 +138,23 @@ const Booking = () => {
       console.log(err);
       alert("Something went wrong. Please try again.");
     }
+  };
+
+  // =========================
+  // RESET FORM
+  // =========================
+  const resetForm = () => {
+    setEvent("");
+    setEventState("");
+    setEventCountry("");
+
+    // Clear uncontrolled inputs manually
+    document.getElementById("custom-event").value = "";
+    document.getElementById("start-date").value = "";
+    document.getElementById("end-date").value = "";
+    document.getElementById("start-time").value = "";
+    document.getElementById("end-time").value = "";
+    document.getElementById("event-address").value = "";
   };
 
   return (
