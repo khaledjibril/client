@@ -50,13 +50,27 @@ const AdminOrders = () => {
         <table className="w-full text-sm">
           <thead>
             <tr>
-              <th>User</th>
-              <th>Order ID</th>
-              <th>Image</th>
-              <th>Size</th>
-              <th>Frame</th>
-              <th className="text-right">Price</th>
-              <th className="text-center">Action</th>
+              <th className="h-12 p-8 text-left text-2xl font-medium text-muted-foreground">
+                User
+              </th>
+              <th className="h-12 p-8 text-left text-2xl font-medium text-muted-foreground">
+                Order ID
+              </th>
+              <th className="h-12 p-8 text-left text-2xl font-medium text-muted-foreground">
+                Image
+              </th>
+              <th className="h-12 p-8 text-left text-2xl font-medium text-muted-foreground">
+                Size
+              </th>
+              <th className="h-12 p-8 text-left text-2xl font-medium text-muted-foreground">
+                Frame
+              </th>
+              <th className="text-right h-12 p-8 text-2xl font-medium text-muted-foreground">
+                Price
+              </th>
+              <th className="text-center h-12 p-8 text-2xl font-medium text-muted-foreground">
+                Action
+              </th>
             </tr>
           </thead>
 
