@@ -106,6 +106,10 @@ const AdminBookings = () => {
                   <td className="p-8">{b.customer_email}</td>
                   <td className="p-8">{b.event_type}</td>
                   <td className="p-8">{formatDate(b.event_date)}</td>
+                  {/* Replace with event_startTime and event_endTime */}
+                  <td className="p-8">
+                    From {b.event_state} - To {b.event_state}
+                  </td>
                   <td className="p-8">{b.event_state}</td>
                   <td className="p-8 text-right">{b.address}</td>
                 </tr>
