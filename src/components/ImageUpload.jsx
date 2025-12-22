@@ -21,7 +21,7 @@ const ImageUpload = ({ label, onFileSelect, preview }) => {
             className="absolute inset-0 w-full h-full object-contain"
           />
         ) : (
-          <p className="text-gray-500 text-[1.4rem] text-center px-4">
+          <p className="text-gray-500 text-[1.4rem] text-center px-4 leading-6 sm:leading-0">
             Click or drag an image here to upload
           </p>
         )}
