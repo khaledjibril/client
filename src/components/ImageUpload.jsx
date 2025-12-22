@@ -8,12 +8,11 @@ const ImageUpload = ({ label, onFileSelect, preview }) => {
 
   return (
     <div className="flex flex-col gap-3">
-      <label className="capitalize text-text-foreground font-medium">
+      <label className="capitalize text-text-foreground font-medium leading-12">
         {label}
       </label>
 
       <div className="relative w-full h-[280px] border-2 border-dashed border-border rounded-lg bg-[#f5f5dc] flex items-center justify-center overflow-hidden cursor-pointer">
-
         {/* Preview Image */}
         {preview ? (
           <img

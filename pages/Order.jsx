@@ -20,11 +20,11 @@ import { FaShoppingCart } from "react-icons/fa";
 const Order = () => {
   const navigate = useNavigate();
 
-    const user = JSON.parse(localStorage.getItem("user"));
-    const [fullName, setFullName] = useState(
-      user?.full_name || user?.fullName || ""
-    );
-    const [email, setEmail] = useState(user?.email || "");
+  const user = JSON.parse(localStorage.getItem("user"));
+  const [fullName, setFullName] = useState(
+    user?.full_name || user?.fullName || ""
+  );
+  const [email, setEmail] = useState(user?.email || "");
 
   // =========================
   // STATE
@@ -95,18 +95,21 @@ const Order = () => {
       setLoading(true);
       setError("");
 
-      const response = await fetch("https://photography-server-catq.onrender.com/api/pricing", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          size: selectedSize,
-          frame,
-          frameType: frame === "yes" ? frameType : null,
-        }),
-      });
-      console.log("starting...")
+      const response = await fetch(
+        "https://photography-server-catq.onrender.com/api/pricing",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            size: selectedSize,
+            frame,
+            frameType: frame === "yes" ? frameType : null,
+          }),
+        }
+      );
+      console.log("starting...");
       const data = await response.json();
 
       if (!response.ok) {
@@ -148,10 +151,13 @@ const Order = () => {
     formData.append("totalPrice", totalPrice);
 
     try {
-      const response = await fetch("https://photography-server-catq.onrender.com/api/orders", {
-        method: "POST",
-        body: formData,
-      });
+      const response = await fetch(
+        "https://photography-server-catq.onrender.com/api/orders",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
 
       const data = await response.json();
 
@@ -262,19 +268,30 @@ const Order = () => {
                   onChange={setAddress}
                   containerClass="mt-20 flex flex-col gap-3"
                   labelClass="font-medium capitalize text-text-foreground"
-                  textareaClass="mt-4 min-h-[10rem] w-full rounded-lg border border-border bg-[#f5f5dc] px-4 py-4 text-[1.4rem]"
+                  textareaClass="mt-4 min-h-[10rem] w-full rounded-lg border border-border bg-[#f5f5dc] px-4 py-4 text-[1.4rem] placeholder:text-muted-foreground placeholder:leading-6"
                 />
               </div>
 
               {/* FOOTER */}
               <div className="mb-8 flex items-center justify-between bg-[#f5f5dc]/50 p-[2.4rem]">
-                <div>
-                  <span className="text-[1.8rem] font-semibold text-text-foreground">
+                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-6">
+                  <span className="text-[1.8rem] font-semibold text-text-foreground leading-8">
                     Total price:
                   </span>
-                  <span className="text-[5rem] font-bold text-primary md:text-[2.6rem]">
-                    {loading ? "Calculating..." : `₦${totalPrice.toLocaleString()}`}
-                  </span>
+                  {loading ? (
+                    <span className="text-[1.8rem] font-bold text-primary md:text-[2rem] leading-12">
+                      Calculating...
+                    </span>
+                  ) : (
+                    <span className="text-[2.6rem] font-bold text-primary md:text-[3rem] leading-12">
+                      ₦{totalPrice.toLocaleString()}
+                    </span>
+                  )}
+                  {/* <span className="text-[2.6rem] font-bold text-primary md:text-[3rem] leading-12">
+                    {loading
+                      ? "Calculating..."
+                      : `₦${totalPrice.toLocaleString()}`}
+                  </span> */}
                 </div>
 
                 <Button
@@ -282,7 +299,7 @@ const Order = () => {
                   text="place order"
                   icon={<FaShoppingCart />}
                   onClick={handlePlaceOrder}
-                  className="flex items-center gap-4 rounded-lg bg-primary px-8 py-4 text-[1.6rem] text-white hover:bg-[#af9674]"
+                  className="flex items-center gap-4 rounded-lg bg-primary leading-6 px-4 sm:px-8 py-4 sm:py-4 text-[1.6rem] text-white hover:bg-[#af9674] sm:leading-8 capitalize"
                 />
               </div>
             </form>

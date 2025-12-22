@@ -375,7 +375,7 @@ const Booking = () => {
                   title={"event address / location"}
                   htmlFor={"event-address"}
                   textareaClass={
-                    "w-full border border-border bg-[#f5f5dc] rounded-lg min-h-[10rem] px-[1rem] py-[1rem] text-[1.4rem] mt-[1rem]"
+                    "w-full border border-border bg-[#f5f5dc] rounded-lg min-h-[10rem] px-[1rem] py-[1rem] text-[1.4rem] mt-[1rem] placeholder:text-muted-foreground placeholder:leading-6"
                   }
                   id={"event-address"}
                   placeholder={"Please provide the full venue and address..."}
@@ -387,7 +387,7 @@ const Booking = () => {
                 <Button
                   type={"button"}
                   className={
-                    "flex items-center justify-center gap-4 capitalize text-white bg-primary px-4 py-6 w-full rounded-lg cursor-pointer hover:bg-[#b19a76] transition-colors duration-300 ease-in-out"
+                    "flex items-center justify-center gap-4 capitalize text-white bg-primary px-4 py-4 sm:py-6 w-full rounded-lg cursor-pointer hover:bg-[#b19a76] transition-colors duration-300 ease-in-out leading-6 sm:leading-0"
                   }
                   onClick={submitBooking}
                   text={"Send booking request"}

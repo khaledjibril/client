@@ -14,9 +14,9 @@ const AdminOrders = () => {
 
   useEffect(() => {
     fetch("https://photography-server-catq.onrender.com/api/admin/orders")
-      .then(res => res.json())
-      .then(data => setOrders(data))
-      .catch(err => console.error(err));
+      .then((res) => res.json())
+      .then((data) => setOrders(data))
+      .catch((err) => console.error(err));
   }, []);
 
   const handleDownload = (orderId) => {
@@ -39,9 +39,11 @@ const AdminOrders = () => {
       </div>
 
       <AdminSubHeader
-        containerClass="p-12"
+        containerClass="p-12 leading-12"
         title="All Orders"
+        titleClass={"text-4xl font-semibold text-text-foreground leading-12"}
         text="A complete list of all order items from all users."
+        textClass={"text-muted-foreground text-2xl"}
       />
 
       <div className="p-4 bg-background-accent">
@@ -59,7 +61,7 @@ const AdminOrders = () => {
           </thead>
 
           <tbody>
-            {orders.map(order => (
+            {orders.map((order) => (
               <tr key={order.id} className="border-b text-2xl">
                 <td>{order.email}</td>
                 <td>tlc-{order.id}</td>
@@ -88,7 +90,6 @@ const AdminOrders = () => {
               </tr>
             ))}
           </tbody>
-
         </table>
       </div>
     </div>

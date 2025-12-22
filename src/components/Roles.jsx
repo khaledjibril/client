@@ -10,39 +10,36 @@ import SearchBar from "./SearchBar";
 import AdminPrivilege from "./AdminPrivilege";
 import { AdminContext } from "../../pages/Admin";
 
-
 const Roles = () => {
   const { toggleAside } = useContext(AdminContext);
   const [users, setUsers] = useState([]);
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    fetch("https://photography-server-catq.onrender.com/api/users")
+    fetch("http://localhost:5000/api/users")
       .then(res => res.json())
       .then(data => setUsers(data));
   }, []);
 
   const updateUserRole = (id, isAdmin) => {
-    setUsers(prev =>
-      prev.map(user =>
+    setUsers((prev) =>
+      prev.map((user) =>
         user.id === id ? { ...user, is_admin: isAdmin } : user
       )
     );
   };
 
-  const filteredUsers = users.filter(user =>
-    user.full_name?.toLowerCase().includes(search.toLowerCase()) ||
-    user.email?.toLowerCase().includes(search.toLowerCase())
+  const filteredUsers = users.filter(
+    (user) =>
+      user.full_name?.toLowerCase().includes(search.toLowerCase()) ||
+      user.email?.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
     <>
       <nav className="w-60 my-8">
         <div className="my-10 md:hidden">
-          <button
-            onClick={toggleAside}
-            className="p-4 border rounded-lg"
-          >
+          <button onClick={toggleAside} className="p-4 border rounded-lg">
             <IoMdMenu />
           </button>
         </div>
@@ -56,12 +53,16 @@ const Roles = () => {
         <div className="flex flex-col md:flex-row justify-between items-center p-12">
           <AdminSubHeader
             title="Management User Roles"
+            titleClass={
+              "text-4xl font-semibold text-text-foreground leading-12"
+            }
             text="Grant or revoke administrator privileges for users."
+            textClass={"text-muted-foreground text-2xl"}
           />
 
           <SearchBar
             placeholder="Search by name or email..."
-            onChange={e => setSearch(e.target.value)}
+            onChange={(e) => setSearch(e.target.value)}
           />
         </div>
 
@@ -76,15 +77,12 @@ const Roles = () => {
             </thead>
 
             <tbody>
-              {filteredUsers.map(user => (
+              {filteredUsers.map((user) => (
                 <tr key={user.id} className="border-b hover:bg-muted">
                   <td className="p-6">{user.full_name}</td>
                   <td className="p-6">{user.email}</td>
                   <td className="p-6 text-right">
-                    <AdminPrivilege
-                      user={user}
-                      onUpdate={updateUserRole}
-                    />
+                    <AdminPrivilege user={user} onUpdate={updateUserRole} />
                   </td>
                 </tr>
               ))}
