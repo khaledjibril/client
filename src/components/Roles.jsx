@@ -17,7 +17,7 @@ const Roles = () => {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/users")
+    fetch("https://photography-server-catq.onrender.com/api/users")
       .then(res => res.json())
       .then(data => setUsers(data));
   }, []);
