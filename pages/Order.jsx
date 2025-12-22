@@ -166,10 +166,25 @@ const Order = () => {
       }
 
       displayPaymentInfo();
+      resetForm(); // Reset form after successful order
     } catch (error) {
       console.error(error);
       alert("Order failed. Please try again.");
     }
+  };
+
+  // =========================
+  // RESET FORM
+  // =========================
+  const resetForm = () => {
+    setSelectedSize("");
+    setFrame("no");
+    setFrameType("");
+    setImage(null);
+    setPreview(null);
+    setAddress("");
+    setTotalPrice(0);
+    setError("");
   };
 
   // =========================
@@ -183,6 +198,7 @@ const Order = () => {
   const closePaymentInfo = () => {
     messageRef.current?.classList.add("hidden");
     overlayRef.current?.classList.add("hidden");
+    resetForm(); // Reset form when closing payment info
   };
 
   // =========================
