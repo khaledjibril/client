@@ -30,10 +30,26 @@ const PaymentInfo = ({ msgRef, overlayRef, onClick }) => {
         <div className="bg-secondary mt-5 p-8 flex flex-col gap-12">
           <div className="flex flex-col gap-8">
             <p className="text-muted-foreground text-[1.4rem] leading-3 sm:leading-0">
+              Account Name:
+            </p>
+            <p className="text-text-foreground text-[2rem] font-bold leading-5 sm:leading-0">
+              Monday Unekwuojo Paul
+            </p>
+          </div>
+          <div className="flex flex-col gap-8">
+            <p className="text-muted-foreground text-[1.4rem] leading-3 sm:leading-0">
               Account Number:
             </p>
             <p className="text-text-foreground text-[2rem] font-bold leading-5 sm:leading-0">
-              123-456-7890
+              0292799626
+            </p>
+          </div>
+          <div className="flex flex-col gap-8">
+            <p className="text-muted-foreground text-[1.4rem] leading-3 sm:leading-0">
+              Bank Name:
+            </p>
+            <p className="text-text-foreground text-[2rem] font-bold leading-5 sm:leading-0">
+              Wema Bank PLC
             </p>
           </div>
           <div className="flex flex-col gap-8">
@@ -41,7 +57,7 @@ const PaymentInfo = ({ msgRef, overlayRef, onClick }) => {
               WhatsApp Contact:
             </p>
             <p className="text-text-foreground text-[2rem] font-bold leading-5 sm:leading-0">
-              +234 708 052 5117
+              +234 704 090 6715
             </p>
           </div>
         </div>
