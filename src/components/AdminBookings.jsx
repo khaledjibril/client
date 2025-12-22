@@ -11,6 +11,18 @@ import { AdminContext } from "../../pages/Admin";
 const AdminBookings = () => {
   const { toggleAside } = useContext(AdminContext);
   const [bookings, setBookings] = useState([]);
+  const formatDate = (dateString) => {
+  if (!dateString) return "";
+
+  const date = new Date(dateString);
+
+  return new Intl.DateTimeFormat("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  }).format(date);
+};
+
 
   // Fetch bookings on load
   useEffect(() => {
@@ -89,7 +101,7 @@ const AdminBookings = () => {
                 >
                   <td className="p-8">{b.customer_email}</td>
                   <td className="p-8">{b.event_type}</td>
-                  <td className="p-8">{b.event_date}</td>
+                  <td className="p-8">{formatDate(b.event_date)}</td>
                   <td className="p-8">{b.event_state}</td>
                   <td className="p-8 text-right">{b.address}</td>
                 </tr>
