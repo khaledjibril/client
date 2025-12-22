@@ -16,12 +16,11 @@ const Roles = () => {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    fetch("https://photography-server-catq.onrender.com/users")
+    fetch("https://photography-server-catq.onrender.com/api/users")
       .then(res => res.json())
       .then(data => setUsers(data));
   }, []);
 
-  
   const updateUserRole = (id, isAdmin) => {
     setUsers((prev) =>
       prev.map((user) =>
