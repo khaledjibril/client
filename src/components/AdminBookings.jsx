@@ -22,6 +22,17 @@ const AdminBookings = () => {
       year: "numeric",
     }).format(date);
   };
+const formatTime = (timeString) => {
+  if (!timeString) return "";
+
+  const date = new Date(`1970-01-01T${timeString}`);
+
+  return new Intl.DateTimeFormat("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  }).format(date);
+};
 
   // Fetch bookings on load
   useEffect(() => {
@@ -108,7 +119,7 @@ const AdminBookings = () => {
                   <td className="p-8">{formatDate(b.event_date)}</td>
                   {/* Replace with event_startTime and event_endTime */}
                   <td className="p-8">
-                    From {b.event_state} - To {b.event_state}
+                    From {formatTime(b.start_time)} - To {formatTime(b.end_time)}
                   </td>
                   <td className="p-8">{b.event_state}</td>
                   <td className="p-8 text-right">{b.address}</td>
