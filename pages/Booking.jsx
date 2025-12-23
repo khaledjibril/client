@@ -12,7 +12,6 @@ import Address from "../src/components/Address";
 import Button from "../src/components/Button";
 import PaymentInfo from "../src/components/PaymentInfo";
 import Message from "../src/components/Message";
-import Payment from "../src/components/Payment";
 
 // ICONS
 import { FaPaperPlane } from "react-icons/fa";
