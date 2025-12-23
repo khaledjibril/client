@@ -83,7 +83,7 @@ const AdminOrders = () => {
                 <td>
                   <div className="w-[6.4rem] h-[6.4rem] rounded-xl overflow-hidden">
                     <img
-                      src={`http://localhost:5000${order.image_path}`}
+                      src={`https://photography-server-catq.onrender.com/${order.image_path}`}
                       alt="Order"
                       className="w-full h-full object-cover"
                     />
