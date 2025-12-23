@@ -60,6 +60,7 @@ const Booking = () => {
     { value: "Abuja", label: "Abuja" },
     { value: "Rivers", label: "Rivers" },
     { value: "Kano", label: "Kano" },
+    { value: "Kogi", label: "Kogi" },
     { value: "Kaduna", label: "Kaduna" },
     { value: "Oyo", label: "Oyo" },
     { value: "Edo", label: "Edo" },
