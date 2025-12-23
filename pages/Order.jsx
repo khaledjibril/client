@@ -13,9 +13,12 @@ import Select from "../src/components/Select";
 import Address from "../src/components/Address";
 import Button from "../src/components/Button";
 import PaymentInfo from "../src/components/PaymentInfo";
+import Message from "../src/components/Message";
+import Payment from "../src/components/Payment";
 
 // Icons
 import { FaShoppingCart } from "react-icons/fa";
+import { set } from "date-fns";
 
 const Order = () => {
   const navigate = useNavigate();
@@ -126,6 +129,14 @@ const Order = () => {
     }
   };
 
+  // ========================
+  // Messages
+  // ========================
+  const [showMessage, setShowMessage] = useState(false);
+  const [messageTitle, setMessageTitle] = useState("");
+  const [messageContent, setMessageContent] = useState("");
+  const [messageBgColor, setMessageBgColor] = useState("");
+
   // Trigger live pricing
   useEffect(() => {
     calculatePrice();
@@ -136,7 +147,13 @@ const Order = () => {
   // =========================
   const handlePlaceOrder = async () => {
     if (!image || !selectedSize || !address) {
-      alert("Please complete all required fields");
+      // alert("Please complete all required fields");
+      setMessageTitle("Error 😣");
+      setMessageContent("Please complete all required fields...");
+      setMessageBgColor("bg-red-500");
+      setShowMessage(true);
+
+      setTimeout(() => setShowMessage(false), 5000); // Hide after 5 seconds
       return;
     }
 
@@ -164,12 +181,26 @@ const Order = () => {
       if (!response.ok) {
         throw new Error(data.message || "Failed to place order");
       }
+      // SUCCESS MESSAGE
+      setMessageTitle("Success 🎉");
+      setMessageContent("Your order has been placed successfully!");
+      setMessageBgColor("bg-green-500");
+      setShowMessage(true);
 
-      displayPaymentInfo();
+      // displayPaymentInfo();
+      setShowPaymentInfo(true);
       resetForm(); // Reset form after successful order
+
+      setTimeout(() => setShowMessage(false), 5000); // Hide after 5 seconds
     } catch (error) {
       console.error(error);
-      alert("Order failed. Please try again.");
+      // alert("Order failed. Please try again.");
+      setMessageTitle("Order Failed 😞");
+      setMessageContent("Order failed. Please try again...");
+      setMessageBgColor("bg-red-500");
+      setShowMessage(true);
+
+      setTimeout(() => setShowMessage(false), 5000);
     }
   };
 
@@ -190,16 +221,7 @@ const Order = () => {
   // =========================
   // PAYMENT MODAL
   // =========================
-  const displayPaymentInfo = () => {
-    messageRef.current?.classList.remove("hidden");
-    overlayRef.current?.classList.remove("hidden");
-  };
-
-  const closePaymentInfo = () => {
-    messageRef.current?.classList.add("hidden");
-    overlayRef.current?.classList.add("hidden");
-    resetForm(); // Reset form when closing payment info
-  };
+  const [showPaymentInfo, setShowPaymentInfo] = useState(false);
 
   // =========================
   // RENDER
@@ -207,7 +229,6 @@ const Order = () => {
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
-
       <main className="flex flex-1 flex-col">
         <section className="pt-35">
           <SubHeader
@@ -322,13 +343,18 @@ const Order = () => {
           </div>
         </section>
       </main>
-
       <Footer />
-
+      {/* PAYMENT INFO OVERLAY */}
       <PaymentInfo
-        msgRef={messageRef}
-        overlayRef={overlayRef}
-        onClick={closePaymentInfo}
+        isOpen={showPaymentInfo}
+        onClose={() => setShowPaymentInfo(false)}
+      />
+      {/* UI Messages */}
+      <Message
+        title={messageTitle}
+        message={messageContent}
+        backgroundColor={messageBgColor}
+        isVisible={showMessage}
       />
     </div>
   );
