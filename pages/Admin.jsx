@@ -7,16 +7,13 @@ import Footer from "../src/components/Footer";
 // ICONS
 import { IoMdClose } from "react-icons/io";
 
-import { NavLink, Outlet, useLocation } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 import { useRef, createContext } from "react";
 
 // import { AdminContext } from "../src/context/AdminContext";
 
 export const AdminContext = createContext();
 const Admin = () => {
-  // to lacate and render path to outlet
-  const location = useLocation();
-
   // Aside Link text and path
   const linksObjects = [
     { text: "Dashboard", path: "/admin" },
@@ -44,15 +41,37 @@ const Admin = () => {
 
   return (
     <AdminContext.Provider value={{ toggleAside }}>
-      <div className="flex flex-col min-h-screen mx-6">
+      <div className="flex flex-col min-h-screen mx-6 overflow-hidden">
         <Header />
 
         <div
           ref={asideParendRef}
-          className="flex flex-1 gap-4 w-full h-full group/nav"
+          // className="flex flex-1 gap-4 w-full h-full group/nav"
+          className="grid grid-cols-1 md:grid-cols-[25.6rem_1fr] flex-1 w-full h-full group/nav"
         >
           {/* Navigation Aside bar */}
-          <aside className="w-2/3 h-full md:h-auto md:w-[25.6rem] border border-border pt-12 absolute top-0 left-0 md:relative -translate-x-full md:translate-x-0 transition-all duration-500 ease-in bg-background opacity-0 pointer-events-none invisible backdrop-blur-sm group-[.nav-open]/nav:opacity-100 group-[.nav-open]/nav:pointer-events-auto group-[.nav-open]/nav:visible group-[.nav-open]/nav:translate-x-0 md:visible md:pointer-events-auto md:opacity-100 z-100">
+          <aside
+            className="
+    fixed md:sticky
+    top-0 left-0
+    w-2/3 md:w-[25.6rem]
+    h-screen
+    border border-border
+    pt-12
+    bg-background
+    z-50
+    -translate-x-full md:translate-x-0
+    transition-all duration-500 ease-in
+    opacity-0 md:opacity-100
+    invisible md:visible
+    pointer-events-none md:pointer-events-auto
+
+    group-[.nav-open]/nav:translate-x-0
+    group-[.nav-open]/nav:opacity-100
+    group-[.nav-open]/nav:visible
+    group-[.nav-open]/nav:pointer-events-auto
+  "
+          >
             <div className="flex justify-end w-full md:hiddedn">
               <button
                 className="p-4 border-2 border-muted-foreground rounded-lg cursor-pointer mx-4 font-bold md:hidden"
@@ -68,17 +87,19 @@ const Admin = () => {
               <ul className="flex flex-col gap-12 mx-8 text-text-foreground">
                 {/* iterating throuth the linkObjects to display the list text, path and handle state */}
                 {linksObjects.map((link, i) => {
-                  const isActive = location.pathname === link.path;
                   return (
                     <li key={i}>
                       <NavLink
                         to={link.path}
                         onClick={handleLinkClick}
-                        className={`hover:text-text-foreground text-3xl ${
-                          isActive
-                            ? "font-semibold text-text-foreground border-l-4 border-text-foreground pl-4"
-                            : "hover:text-text-foreground"
-                        }`}
+                        className={({ isActive }) =>
+                          `text-3xl transition-all ${
+                            isActive
+                              ? "font-semibold border-l-4 border-text-foreground pl-4"
+                              : "hover:pl-4 hover:border-l-4 hover:border-muted-foreground"
+                          }`
+                        }
+                        end={link.path === "/admin"}
                       >
                         {link.text}
                       </NavLink>
@@ -89,7 +110,10 @@ const Admin = () => {
             </nav>
           </aside>
           {/* MAIN CONTENT */}
-          <main className="main-content w-full" id="top">
+          <main
+            className="main-content w-full h-screen overflow-y-auto"
+            id="top"
+          >
             {/* outlet for aside bar links component to be rendered dynamically on the page on click */}
             <Outlet />
           </main>
