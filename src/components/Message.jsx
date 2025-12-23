@@ -3,7 +3,7 @@
 const Message = ({ title, message, backgroundColor, isVisible }) => {
   return (
     <div
-      className={`flex flex-col gap-3 sm:gap-6 rounded-lg w-md sm:w-xl absolute bottom-10 right-6 px-12 py-10 z-50 ${backgroundColor} ${
+      className={`flex flex-col gap-3 sm:gap-6 rounded-lg w-md sm:w-xl absolute bottom-10 right-6 px-6  sm:px-12 py-5 sm:py-10 z-50 ${backgroundColor} ${
         isVisible
           ? "opacity-100 translate-y-0 duration-500 ease-in-out"
           : "opacity-0 translate-y-6 pointer-events-none duration-300"
