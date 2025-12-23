@@ -32,17 +32,17 @@ const Booking = () => {
 
   const eventOptions = [
     { value: "", label: "Select the type of event" },
-    { value: "Pre-wedding Session", label: "Pre-wedding Session" },
-    { value: "Wedding Ceremony", label: "Wedding Ceremony" },
-    { value: "Engagement Ceremony", label: "Engagement ceremony" },
-    { value: "Birthday Party", label: "Birthday Party" },
-    { value: "Naming Ceremony", label: "Naming Ceremony" },
-    { value: "Dedication Ceremony", label: "Dedication Ceremony" },
-    { value: "Portrait Session", label: "Portrait Session" },
-    { value: "Outdoor Photo Session", label: "Outdoor Photo Session" },
-    { value: "Corporate Event", label: "Corporate Event" },
-    { value: "Family Session", label: "Family Session" },
-    { value: "Party / Campaign Event", label: "Party / Campaign Event" },
+    { value: "Pre-wedding Session", label: "Pre-wedding Session (20k)" },
+    { value: "Wedding Ceremony", label: "Wedding Ceremony (100k)" },
+    { value: "Engagement Ceremony", label: "Engagement ceremony (100k)" },
+    { value: "Birthday Party", label: "Birthday Party (80k)" },
+    { value: "Naming Ceremony", label: "Naming Ceremony (80k)" },
+    { value: "Dedication Ceremony", label: "Dedication Ceremony (90k)" },
+    { value: "Portrait Session", label: "Portrait Session (30k)" },
+    { value: "Outdoor Photo Session", label: "Outdoor Photo Session (30k)" },
+    { value: "Corporate Event", label: "Corporate Event (50k)" },
+    { value: "Family Session", label: "Family Session (25k)" },
+    { value: "Party / Campaign Event", label: "Party / Campaign Event (300k)" },
     { value: "other", label: "Other" },
   ];
 
@@ -80,19 +80,7 @@ const Booking = () => {
     { value: "other", label: "Other" },
   ];
 
-  // PAYMENT MESSAGE
-  // const messageRef = useRef(null);
-  // const overlayRef = useRef(null);
-
-  // const displayPaymentInfo = () => {
-  //   messageRef.current.classList.remove("hidden");
-  //   overlayRef.current.classList.remove("hidden");
-  // };
-
-  // const closePaymentInfo = () => {
-  //   messageRef.current.classList.add("hidden");
-  //   overlayRef.current.classList.add("hidden");
-  // };
+  // PAYMENT INFO OVERLAY STATE
 
   const [showPaymentInfo, setShowPaymentInfo] = useState(false);
 
