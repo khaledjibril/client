@@ -11,6 +11,8 @@ import Select from "../src/components/Select";
 import Address from "../src/components/Address";
 import Button from "../src/components/Button";
 import PaymentInfo from "../src/components/PaymentInfo";
+import Message from "../src/components/Message";
+import Payment from "../src/components/Payment";
 
 // ICONS
 import { FaPaperPlane } from "react-icons/fa";
@@ -79,18 +81,20 @@ const Booking = () => {
   ];
 
   // PAYMENT MESSAGE
-  const messageRef = useRef(null);
-  const overlayRef = useRef(null);
+  // const messageRef = useRef(null);
+  // const overlayRef = useRef(null);
 
-  const displayPaymentInfo = () => {
-    messageRef.current.classList.remove("hidden");
-    overlayRef.current.classList.remove("hidden");
-  };
+  // const displayPaymentInfo = () => {
+  //   messageRef.current.classList.remove("hidden");
+  //   overlayRef.current.classList.remove("hidden");
+  // };
 
-  const closePaymentInfo = () => {
-    messageRef.current.classList.add("hidden");
-    overlayRef.current.classList.add("hidden");
-  };
+  // const closePaymentInfo = () => {
+  //   messageRef.current.classList.add("hidden");
+  //   overlayRef.current.classList.add("hidden");
+  // };
+
+  const [showPaymentInfo, setShowPaymentInfo] = useState(false);
 
   // EVENT DETAILS
   const [customEvent, setCustomEvent] = useState("");
@@ -100,6 +104,14 @@ const Booking = () => {
   const [endTime, setEndTime] = useState("");
   const [address, setAddress] = useState("");
   const [otherCountry, setOtherCountry] = useState("");
+
+  // ========================
+  // Messages
+  // ========================
+  const [showMessage, setShowMessage] = useState(false);
+  const [messageTitle, setMessageTitle] = useState("");
+  const [messageContent, setMessageContent] = useState("");
+  const [messageBgColor, setMessageBgColor] = useState("");
 
   // LOADING STATE
   const [loading, setLoading] = useState(false);
@@ -139,14 +151,36 @@ const Booking = () => {
       const data = await res.json();
 
       if (res.ok) {
-        displayPaymentInfo();
+        // SUCCESS MESSAGE
+        setMessageTitle("Success 🎉");
+        setMessageContent(
+          "Your booking request has been sent successfully, we will get back to you shortly!"
+        );
+        setMessageBgColor("bg-green-500");
+        setShowMessage(true);
+
+        // displayPaymentInfo();
+        setShowPaymentInfo(true);
         resetForm(); // Reset form after successful booking
+
+        setTimeout(() => setShowMessage(false), 5000); // Hide after 5 seconds
       } else {
-        alert(data.message);
+        setMessageTitle("Error 😣");
+        setMessageContent(
+          data.message || "Booking failed... Please try again."
+        );
+        setMessageBgColor("bg-red-500");
+        setShowMessage(true);
+
+        setTimeout(() => setShowMessage(false), 5000); // Hide after 5 seconds
       }
     } catch (err) {
-      console.log(err);
-      alert("Something went wrong. Please try again.");
+      setMessageTitle("Error");
+      setMessageContent(err || "Something went wrong. Please try again.");
+      setMessageBgColor("bg-red-500");
+      setShowMessage(true);
+
+      setTimeout(() => setShowMessage(false), 5000); // Hide after 5 seconds
     } finally {
       setLoading(false);
     }
@@ -442,13 +476,18 @@ const Booking = () => {
           </div>
         </section>
       </main>
-
       <Footer />
-
+      {/* PAYMENT INFO OVERLAY */}
       <PaymentInfo
-        msgRef={messageRef}
-        overlayRef={overlayRef}
-        onClick={closePaymentInfo}
+        isOpen={showPaymentInfo}
+        onClose={() => setShowPaymentInfo(false)}
+      />
+      {/* UI Messages */}
+      <Message
+        title={messageTitle}
+        message={messageContent}
+        backgroundColor={messageBgColor}
+        isVisible={showMessage}
       />
     </div>
   );
