@@ -42,63 +42,77 @@ const AdminDashboard = () => {
   const [loading, setLoading] = useState(true);
 
   // Fetch dashboard data
-useEffect(() => {
-  const fetchDashboard = async () => {
-    try {
-      const [statsRes, usersRes, ordersRes, complaintsRes] = await Promise.all([
-        axios.get("https://photography-server-catq.onrender.com/api/admin/stats"),
-        axios.get("https://photography-server-catq.onrender.com/api/admin/recent-users"),
-        axios.get("https://photography-server-catq.onrender.com/api/admin/recent-orders"),
-        axios.get("https://photography-server-catq.onrender.com/api/complaints/all")
-      ]);
+  useEffect(() => {
+    const fetchDashboard = async () => {
+      try {
+        const [statsRes, usersRes, ordersRes, complaintsRes] =
+          await Promise.all([
+            axios.get(
+              "https://photography-server-catq.onrender.com/api/admin/stats"
+            ),
+            axios.get(
+              "https://photography-server-catq.onrender.com/api/admin/recent-users"
+            ),
+            axios.get(
+              "https://photography-server-catq.onrender.com/api/admin/recent-orders"
+            ),
+            axios.get(
+              "https://photography-server-catq.onrender.com/api/complaints/all"
+            ),
+          ]);
 
-      // Set basic stats
-      setStats(statsRes.data || { 
-        totalUsers: 0, 
-        totalOrders: 0, 
-        totalBookings: 0, 
-        pendingComplaints: 0 
-      });
+        // Set basic stats
+        setStats(
+          statsRes.data || {
+            totalUsers: 0,
+            totalOrders: 0,
+            totalBookings: 0,
+            pendingComplaints: 0,
+          }
+        );
 
-      // ---- FIXED: calculate pending complaints ----
-      let pending = 0;
-      if (Array.isArray(complaintsRes.data)) {
-        pending = complaintsRes.data.filter(c => c.status === "pending").length;
+        // ---- FIXED: calculate pending complaints ----
+        let pending = 0;
+        if (Array.isArray(complaintsRes.data)) {
+          pending = complaintsRes.data.filter(
+            (c) => c.status === "pending"
+          ).length;
+        }
+
+        setStats((prev) => ({
+          ...prev,
+          pendingComplaints: pending,
+        }));
+        // ---------------------------------------------
+
+        // Recent users
+        if (Array.isArray(usersRes.data)) setRecentUsers(usersRes.data);
+        else if (Array.isArray(usersRes.data.users))
+          setRecentUsers(usersRes.data.users);
+        else setRecentUsers([]);
+
+        // Recent orders
+        if (Array.isArray(ordersRes.data)) setRecentOrders(ordersRes.data);
+        else if (Array.isArray(ordersRes.data.orders))
+          setRecentOrders(ordersRes.data.orders);
+        else setRecentOrders([]);
+      } catch (err) {
+        console.error("Dashboard fetch error:", err);
+        setRecentUsers([]);
+        setRecentOrders([]);
+      } finally {
+        setLoading(false);
       }
+    };
 
-      setStats(prev => ({
-        ...prev,
-        pendingComplaints: pending
-      }));
-      // ---------------------------------------------
-
-      // Recent users
-      if (Array.isArray(usersRes.data)) setRecentUsers(usersRes.data);
-      else if (Array.isArray(usersRes.data.users)) setRecentUsers(usersRes.data.users);
-      else setRecentUsers([]);
-
-      // Recent orders
-      if (Array.isArray(ordersRes.data)) setRecentOrders(ordersRes.data);
-      else if (Array.isArray(ordersRes.data.orders)) setRecentOrders(ordersRes.data.orders);
-      else setRecentOrders([]);
-
-    } catch (err) {
-      console.error("Dashboard fetch error:", err);
-      setRecentUsers([]);
-      setRecentOrders([]);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  fetchDashboard();
-}, []);
-
+    fetchDashboard();
+  }, []);
 
   // Handle gallery input
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-    if (name === "file") setGalleryForm((prev) => ({ ...prev, file: files[0] }));
+    if (name === "file")
+      setGalleryForm((prev) => ({ ...prev, file: files[0] }));
     else setGalleryForm((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -115,9 +129,13 @@ useEffect(() => {
     formData.append("file", galleryForm.file);
 
     try {
-      await axios.post("https://photography-server-catq.onrender.com/api/admin/gallery", formData, {
-        headers: { "Content-Type": "multipart/form-data" }
-      });
+      await axios.post(
+        "https://photography-server-catq.onrender.com/api/admin/gallery",
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
       alert("Image uploaded successfully!");
       setGalleryForm({ title: "", description: "", file: null });
     } catch (err) {
@@ -126,13 +144,14 @@ useEffect(() => {
     }
   };
 
-  if (loading) return <p className="text-center text-2xl mt-12">Loading dashboard...</p>;
+  if (loading)
+    return <p className="text-center text-2xl mt-12">Loading dashboard...</p>;
 
   return (
     <div>
       {/* Header */}
       <AdminSubHeader
-        containerClass={"flex-col gap-10 pt-16 hidden md:flex"}
+        containerClass={"flex-col gap-10 pt-16 hidden md:flex md:ml-12"}
         title={`Admin Dashboard`}
         titleClass={`font-bold text-[2.8rem] text-text-foreground capitalize`}
         text={`Overview of your application.`}
@@ -154,10 +173,26 @@ useEffect(() => {
 
       {/* Overview cards */}
       <div className="grid gap-12 mt-16 md:grid-cols-2 lg:grid-cols-4">
-        <OverviewCard title={"Total Users"} icon={<IoMdPeople />} number={stats.totalUsers} />
-        <OverviewCard title={"Total Orders"} icon={<FaShoppingCart />} number={stats.totalOrders} />
-        <OverviewCard title={"Total Bookings"} icon={<FaCalendar />} number={stats.totalBookings} />
-        <OverviewCard title={"Pending Complaints"} icon={<BiSolidComment />} number={stats.pendingComplaints} />
+        <OverviewCard
+          title={"Total Users"}
+          icon={<IoMdPeople />}
+          number={stats.totalUsers}
+        />
+        <OverviewCard
+          title={"Total Orders"}
+          icon={<FaShoppingCart />}
+          number={stats.totalOrders}
+        />
+        <OverviewCard
+          title={"Total Bookings"}
+          icon={<FaCalendar />}
+          number={stats.totalBookings}
+        />
+        <OverviewCard
+          title={"Pending Complaints"}
+          icon={<BiSolidComment />}
+          number={stats.pendingComplaints}
+        />
       </div>
 
       {/* Image upload */}
@@ -207,7 +242,11 @@ useEffect(() => {
             </div>
           </div>
 
-          <ImageUpload label={"Image File"} onChange={handleChange} name="file" />
+          <ImageUpload
+            label={"Image File"}
+            onChange={handleChange}
+            name="file"
+          />
         </div>
 
         <div className="flex items-center justify-center px-10 md:mx-16">
@@ -228,7 +267,9 @@ useEffect(() => {
           <AdminSubHeader
             containerClass={"flex flex-col gap-2"}
             title={"Recent Orders"}
-            titleClass={"text-4xl font-semibold text-text-foreground capitalize"}
+            titleClass={
+              "text-4xl font-semibold text-text-foreground capitalize"
+            }
             text={"A list of the most recent orders."}
             textClass={"text-2xl text-muted-foreground"}
           />
@@ -251,8 +292,13 @@ useEffect(() => {
                 <tbody className="[&_tr:last-child]:border-0">
                   {Array.isArray(recentOrders) && recentOrders.length > 0 ? (
                     recentOrders.map((order, idx) => (
-                      <tr key={idx} className="border-b border-border transition-colors text-2xl hover:bg-background data-[state=selected]:bg-muted">
-                        <td className="p-8 align-middle text-text-foreground">{order.full_name || "-"}</td>
+                      <tr
+                        key={idx}
+                        className="border-b border-border transition-colors text-2xl hover:bg-background data-[state=selected]:bg-muted"
+                      >
+                        <td className="p-8 align-middle text-text-foreground">
+                          {order.full_name || "-"}
+                        </td>
                         <td className="p-8 align-middle text-text-foreground">
                           <div className="inline-flex items-center rounded-full border border-border px-2.5 py-0.5 text-xl font-semibold capitalize">
                             {order.status || "-"}
@@ -265,7 +311,10 @@ useEffect(() => {
                     ))
                   ) : (
                     <tr>
-                      <td colSpan={3} className="p-8 text-center text-muted-foreground">
+                      <td
+                        colSpan={3}
+                        className="p-8 text-center text-muted-foreground"
+                      >
                         No recent orders found.
                       </td>
                     </tr>
@@ -281,14 +330,19 @@ useEffect(() => {
           <AdminSubHeader
             containerClass={"flex flex-col gap-2"}
             title={"Recent Users"}
-            titleClass={"text-4xl font-semibold text-text-foreground capitalize"}
+            titleClass={
+              "text-4xl font-semibold text-text-foreground capitalize"
+            }
             text={"The latest users who signed up."}
             textClass={"text-2xl text-muted-foreground"}
           />
           <div className="py-12">
             {Array.isArray(recentUsers) && recentUsers.length > 0 ? (
               recentUsers.map((user, idx) => (
-                <div key={idx} className="flex items-center gap-8 not-last:pb-10">
+                <div
+                  key={idx}
+                  className="flex items-center gap-8 not-last:pb-10"
+                >
                   <div className="w-16 h-16 rounded-[50%] bg-background-accent flex items-center justify-center">
                     <span className="capitalize">{user.name?.[0] || "?"}</span>
                   </div>
@@ -303,7 +357,9 @@ useEffect(() => {
                 </div>
               ))
             ) : (
-              <p className="text-center text-muted-foreground">No recent users found.</p>
+              <p className="text-center text-muted-foreground">
+                No recent users found.
+              </p>
             )}
           </div>
         </div>
