@@ -18,7 +18,7 @@ const Users = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await fetch("https://photography-server-catq.onrender.com/api/admin/users");
+        const res = await fetch("https://photography-server-catq.onrender.com/api/users");
         const data = await res.json();
         setUsers(data);
         setFiltered(data);
@@ -113,10 +113,10 @@ const Users = () => {
                   className="border-b border-border text-2xl transition-colors hover:bg-background"
                 >
                   <td className="p-8 text-text-foreground">
-                    {user.name}
+                    {user.full_name}
                   </td>
                   <td className="p-8 text-text-foreground">
-                    {user.email}
+                    {user.email}  
                   </td>
                   <td className="p-8 text-right text-text-foreground">
                     {user.is_admin ? "True" : "False"}
