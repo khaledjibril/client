@@ -70,11 +70,12 @@ const AdminBookings = () => {
 
     const query = searchQuery.toLowerCase();
 
-    const filtered = allBookings.filter((b) =>
-      b.customer_email?.toLowerCase().includes(query) ||
-      b.event_type?.toLowerCase().includes(query) ||
-      b.event_state?.toLowerCase().includes(query) ||
-      b.address?.toLowerCase().includes(query)
+    const filtered = allBookings.filter(
+      (b) =>
+        b.customer_email?.toLowerCase().includes(query) ||
+        b.event_type?.toLowerCase().includes(query) ||
+        b.event_state?.toLowerCase().includes(query) ||
+        b.address?.toLowerCase().includes(query)
     );
 
     setBookings(filtered);
@@ -132,6 +133,9 @@ const AdminBookings = () => {
                 <th className="p-8 text-left text-2xl text-muted-foreground">
                   Event State
                 </th>
+                <th className="p-8 text-left text-2xl text-muted-foreground">
+                  Price
+                </th>
                 <th className="p-8 text-right text-2xl text-muted-foreground">
                   Address
                 </th>
@@ -152,6 +156,8 @@ const AdminBookings = () => {
                     {formatTime(b.end_time)}
                   </td>
                   <td className="p-8">{b.event_state}</td>
+                  {/* Add b.event_price */}
+                  <td className="p-8">price</td>
                   <td className="p-8 text-right">{b.address}</td>
                 </tr>
               ))}
