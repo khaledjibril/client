@@ -242,6 +242,21 @@ const Booking = () => {
                       />
                     }
                   />
+                  <FieldContainer
+                    containerClass={"flex flex-col gap-3 mb-6 sm:col-span-2"}
+                    labelClass={"capitalize text-[#504230] font-medium"}
+                    labelFor={"phone-number"}
+                    title={"Phone Number"}
+                    inputField={
+                      <InputField
+                        type="tel"
+                        id="phone-number"
+                        value={user?.phone || ""}
+                        readOnly
+                        className="flex border border-border bg-[#e8e8cf] rounded-lg p-4 w-full mt-4 text-gray-500 cursor-not-allowed"
+                      />
+                    }
+                  />
                 </div>
 
                 {/* EVENT TYPE */}
