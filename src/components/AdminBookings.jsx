@@ -122,6 +122,9 @@ const AdminBookings = () => {
                   Customer Email
                 </th>
                 <th className="p-8 text-left text-2xl text-muted-foreground">
+                  Phone Number
+                </th>
+                <th className="p-8 text-left text-2xl text-muted-foreground">
                   Event Type
                 </th>
                 <th className="p-8 text-left text-2xl text-muted-foreground">
@@ -149,6 +152,8 @@ const AdminBookings = () => {
                   className="border-b border-border text-2xl hover:bg-background"
                 >
                   <td className="p-8">{b.customer_email}</td>
+                  {/* Customer Phone number */}
+                  <td className="p-8">{b.customer_phone || "Phone number"}</td>
                   <td className="p-8">{b.event_type}</td>
                   <td className="p-8">{formatDate(b.event_date)}</td>
                   <td className="p-8">
