@@ -54,6 +54,9 @@ const AdminOrders = () => {
                 User
               </th>
               <th className="h-12 p-8 text-left text-2xl font-medium text-muted-foreground">
+                Phone Number
+              </th>
+              <th className="h-12 p-8 text-left text-2xl font-medium text-muted-foreground">
                 Order ID
               </th>
               <th className="h-12 p-8 text-left text-2xl font-medium text-muted-foreground">
@@ -78,6 +81,8 @@ const AdminOrders = () => {
             {orders.map((order) => (
               <tr key={order.id} className="border-b text-2xl">
                 <td>{order.email}</td>
+                {/* Add the Phone Number Below */}
+                <td>{order.phone_number || "Phone number"}</td>
                 <td>tlc-{order.id}</td>
 
                 <td>
