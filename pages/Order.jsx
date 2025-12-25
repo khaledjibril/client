@@ -14,6 +14,7 @@ import Address from "../src/components/Address";
 import Button from "../src/components/Button";
 import PaymentInfo from "../src/components/PaymentInfo";
 import Message from "../src/components/Message";
+import InputField from "../src/components/InputField";
 
 // Icons
 import { FaShoppingCart } from "react-icons/fa";
@@ -294,12 +295,24 @@ const Order = () => {
                         />
                       </div>
                     )}
+                    <div className="flex flex-col gap-3 pt-4">
+                      <label className="font-medium capitalize text-text-foreground">
+                        4. Phone Number
+                      </label>
+                      <InputField
+                        type="tel"
+                        id="phone-number"
+                        value={user?.phone || ""}
+                        readOnly
+                        className="flex border border-border bg-[#e8e8cf] rounded-lg p-4 w-full mt-4 text-gray-500 cursor-not-allowed"
+                      />
+                    </div>
                   </div>
                 </div>
 
                 {/* ADDRESS */}
                 <Address
-                  title="4. shipping address"
+                  title="5. shipping address"
                   placeholder="Enter your full shipping address..."
                   onChange={setAddress}
                   containerClass="mt-20 flex flex-col gap-3"
