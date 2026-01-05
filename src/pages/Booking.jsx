@@ -1,17 +1,17 @@
 "use strict";
 
 // COMPONENTS
-import Header from "../src/components/Header";
-import Footer from "../src/components/Footer";
-import SubHeader from "../src/components/SubHeader";
-import FormHeader from "../src/components/FormHeader";
-import FieldContainer from "../src/components/FieldContainer";
-import InputField from "../src/components/InputField";
-import Select from "../src/components/Select";
-import Address from "../src/components/Address";
-import Button from "../src/components/Button";
-import PaymentInfo from "../src/components/PaymentInfo";
-import Message from "../src/components/Message";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import SubHeader from "../components/SubHeader";
+import FormHeader from "../components/FormHeader";
+import FieldContainer from "../components/FieldContainer";
+import InputField from "../components/InputField";
+import Select from "../components/Select";
+import Address from "../components/Address";
+import Button from "../components/Button";
+import PaymentInfo from "../components/PaymentInfo";
+import Message from "../components/Message";
 
 // ICONS
 import { FaPaperPlane } from "react-icons/fa";

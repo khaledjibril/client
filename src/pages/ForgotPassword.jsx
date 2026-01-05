@@ -1,8 +1,8 @@
 "use strict";
 
 // COMPONENTS
-import Header from "../src/components/Header";
-import Footer from "../src/components/Footer";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 import { Link, useNavigate } from "react-router-dom";
 
 // ICONS

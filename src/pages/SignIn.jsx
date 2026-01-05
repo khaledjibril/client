@@ -4,11 +4,11 @@ import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 // CONTEXT
-import { AuthContext } from "../src/context/AuthContext";
+import { AuthContext } from "../context/AuthContext";
 
 // COMPONENTS
-import Header from "../src/components/Header";
-import Footer from "../src/components/Footer";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 // ICONS
 import { CiLogin } from "react-icons/ci";

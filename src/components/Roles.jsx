@@ -8,7 +8,7 @@ import { FaArrowLeftLong } from "react-icons/fa6";
 import AdminSubHeader from "./AdminSubHeader";
 import SearchBar from "./SearchBar";
 import AdminPrivilege from "./AdminPrivilege";
-import { AdminContext } from "../../pages/Admin";
+import { AdminContext } from "../pages/Admin";
 
 const Roles = () => {
   const { toggleAside } = useContext(AdminContext);

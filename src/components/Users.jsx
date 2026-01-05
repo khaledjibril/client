@@ -4,7 +4,7 @@ import AdminSubHeader from "./AdminSubHeader";
 import SearchBar from "./SearchBar";
 import { IoMdMenu } from "react-icons/io";
 import { useContext, useEffect, useState } from "react";
-import { AdminContext } from "../../pages/Admin";
+import { AdminContext } from "../pages/Admin";
 import { Link } from "react-router-dom";
 
 const Users = () => {

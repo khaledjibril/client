@@ -18,7 +18,7 @@ import { BiSolidComment } from "react-icons/bi";
 import { MdOutlineFileUpload } from "react-icons/md";
 
 // Admin context
-import { AdminContext } from "../../pages/Admin";
+import { AdminContext } from "../pages/Admin";
 
 const AdminDashboard = () => {
   const { toggleAside } = useContext(AdminContext);

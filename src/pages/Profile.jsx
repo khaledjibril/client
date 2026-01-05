@@ -1,17 +1,17 @@
 "use strict";
 
 // COMPONENTS
-import Header from "../src/components/Header";
-import Footer from "../src/components/Footer";
-import AccountInfo from "../src/components/AccountInfo";
-import Orders from "../src/components/Orders";
-import Bookings from "../src/components/Bookings";
-import Complaint from "../src/components/Complaint";
-import ResetPassword from "../src/components/ResetPassword";
+import Header from "../components/Header.jsx";
+import Footer from "../components/Footer";
+import AccountInfo from "../components/AccountInfo";
+import Orders from "../components/Orders";
+import Bookings from "../components/Bookings";
+import Complaint from "../components/Complaint";
+import ResetPassword from "../components/ResetPassword";
 
 // REACT
 import { useState, useContext } from "react";
-import { AuthContext } from "../src/context/AuthContext";
+import { AuthContext } from "../context/AuthContext";
 
 // ICONS
 import { IoIosPerson } from "react-icons/io";

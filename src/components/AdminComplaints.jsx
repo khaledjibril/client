@@ -5,7 +5,7 @@ import AdminSubHeader from "./AdminSubHeader";
 import SearchBar from "./SearchBar";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
 import { IoMdMenu } from "react-icons/io";
-import { AdminContext } from "../../pages/Admin";
+import { AdminContext } from "../pages/Admin";
 
 const AdminComplaints = () => {
   const { toggleAside } = useContext(AdminContext);

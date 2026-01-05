@@ -1,8 +1,8 @@
 "use strict";
 
 // COMPONENTS
-import Header from "../src/components/Header";
-import Footer from "../src/components/Footer";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 // ICONS
 import { IoMdClose } from "react-icons/io";
@@ -10,7 +10,7 @@ import { IoMdClose } from "react-icons/io";
 import { NavLink, Outlet } from "react-router-dom";
 import { useRef, createContext } from "react";
 
-// import { AdminContext } from "../src/context/AdminContext";
+// import { AdminContext } from "../context/AdminContext";
 
 export const AdminContext = createContext();
 const Admin = () => {

@@ -4,17 +4,17 @@ import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 // Components
-import Header from "../src/components/Header";
-import Footer from "../src/components/Footer";
-import SubHeader from "../src/components/SubHeader";
-import FormHeader from "../src/components/FormHeader";
-import ImageUpload from "../src/components/ImageUpload";
-import Select from "../src/components/Select";
-import Address from "../src/components/Address";
-import Button from "../src/components/Button";
-import PaymentInfo from "../src/components/PaymentInfo";
-import Message from "../src/components/Message";
-import InputField from "../src/components/InputField";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import SubHeader from "../components/SubHeader";
+import FormHeader from "../components/FormHeader";
+import ImageUpload from "../components/ImageUpload";
+import Select from "../components/Select";
+import Address from "../components/Address";
+import Button from "../components/Button";
+import PaymentInfo from "../components/PaymentInfo";
+import Message from "../components/Message";
+import InputField from "../components/InputField";
 
 // Icons
 import { FaShoppingCart } from "react-icons/fa";

@@ -1,13 +1,13 @@
 "use strict";
 
 // COMPONENTS
-import Header from "../src/components/Header";
-import Footer from "../src/components/Footer";
-import SubHeader from "../src/components/SubHeader";
-import Cards from "../src/components/Cards";
-import Image from "../src/components/Image";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import SubHeader from "../components/SubHeader";
+import Cards from "../components/Cards";
+import Image from "../components/Image";
 
-import data from "../src/assets/pic-resource-url.json";
+import data from "../assets/pic-resource-url.json";
 import { Link } from "react-router-dom";
 
 // ICONS

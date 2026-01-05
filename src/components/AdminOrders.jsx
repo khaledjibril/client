@@ -6,7 +6,7 @@ import SearchBar from "./SearchBar";
 import DownloadBtn from "./DownloadBtn";
 import { IoMdMenu } from "react-icons/io";
 import { GoDownload } from "react-icons/go";
-import { AdminContext } from "../../pages/Admin";
+import { AdminContext } from "../pages/Admin";
 
 const AdminOrders = () => {
   const { toggleAside } = useContext(AdminContext);

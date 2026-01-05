@@ -1,12 +1,12 @@
 "use strict";
 
 // COMPONENTS
-import Header from "../src/components/Header";
-import Footer from "../src/components/Footer";
-import SubHeader from "../src/components/SubHeader";
-import Image from "../src/components/Image";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import SubHeader from "../components/SubHeader";
+import Image from "../components/Image";
 
-import data from "../src/assets/pic-resource-url.json";
+import data from "../assets/pic-resource-url.json";
 
 const Gallery = () => {
   const images = data.placeholderImages;

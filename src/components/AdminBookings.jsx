@@ -6,7 +6,7 @@ import axios from "axios";
 import AdminSubHeader from "./AdminSubHeader";
 import SearchBar from "./SearchBar";
 import { IoMdMenu } from "react-icons/io";
-import { AdminContext } from "../../pages/Admin";
+import { AdminContext } from "../pages/Admin";
 
 const AdminBookings = () => {
   const { toggleAside } = useContext(AdminContext);
