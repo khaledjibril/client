@@ -16,18 +16,20 @@ import PaymentInfo from "../components/PaymentInfo";
 import Message from "../components/Message";
 import InputField from "../components/InputField";
 
+// Utils
+import { uploadToCloudinary } from "../utils/cloudinary";
+
 // Icons
 import { FaShoppingCart } from "react-icons/fa";
-import { set } from "date-fns";
 
 const Order = () => {
   const navigate = useNavigate();
 
   const user = JSON.parse(localStorage.getItem("user"));
-  const [fullName, setFullName] = useState(
+  const [fullName] = useState(
     user?.full_name || user?.fullName || ""
   );
-  const [email, setEmail] = useState(user?.email || "");
+  const [email] = useState(user?.email || "");
 
   // =========================
   // STATE
@@ -35,8 +37,10 @@ const Order = () => {
   const [selectedSize, setSelectedSize] = useState("");
   const [frame, setFrame] = useState("no");
   const [frameType, setFrameType] = useState("");
-  const [image, setImage] = useState(null);
+
+  const [imageUrl, setImageUrl] = useState("");
   const [preview, setPreview] = useState(null);
+
   const [address, setAddress] = useState("");
   const [totalPrice, setTotalPrice] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -78,11 +82,25 @@ const Order = () => {
   ];
 
   // =========================
-  // IMAGE HANDLER
+  // IMAGE HANDLER (Cloudinary)
   // =========================
-  const handleImageSelect = (file) => {
-    setImage(file);
-    setPreview(URL.createObjectURL(file));
+  const handleImageSelect = async (file) => {
+    try {
+      setLoading(true);
+      setError("");
+
+      // instant preview
+      setPreview(URL.createObjectURL(file));
+
+      // upload to cloudinary
+      const url = await uploadToCloudinary(file);
+      setImageUrl(url);
+    } catch (err) {
+      console.error(err);
+      setError("Image upload failed");
+    } finally {
+      setLoading(false);
+    }
   };
 
   // =========================
@@ -102,9 +120,7 @@ const Order = () => {
         "https://photography-server-catq.onrender.com/api/pricing",
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             size: selectedSize,
             frame,
@@ -112,7 +128,7 @@ const Order = () => {
           }),
         }
       );
-      console.log("starting...");
+
       const data = await response.json();
 
       if (!response.ok) {
@@ -129,50 +145,50 @@ const Order = () => {
     }
   };
 
+  useEffect(() => {
+    calculatePrice();
+  }, [selectedSize, frame, frameType]);
+
   // ========================
-  // Messages
+  // UI MESSAGES
   // ========================
   const [showMessage, setShowMessage] = useState(false);
   const [messageTitle, setMessageTitle] = useState("");
   const [messageContent, setMessageContent] = useState("");
   const [messageBgColor, setMessageBgColor] = useState("");
 
-  // Trigger live pricing
-  useEffect(() => {
-    calculatePrice();
-  }, [selectedSize, frame, frameType]);
-
   // =========================
   // PLACE ORDER
   // =========================
+  const [showPaymentInfo, setShowPaymentInfo] = useState(false);
+
   const handlePlaceOrder = async () => {
-    if (!image || !selectedSize || !address) {
-      // alert("Please complete all required fields");
+    if (!imageUrl || !selectedSize || !address) {
       setMessageTitle("Error 😣");
       setMessageContent("Please complete all required fields...");
       setMessageBgColor("bg-red-500");
       setShowMessage(true);
-
-      setTimeout(() => setShowMessage(false), 5000); // Hide after 5 seconds
+      setTimeout(() => setShowMessage(false), 5000);
       return;
     }
 
-    const formData = new FormData();
-    formData.append("full_name", fullName);
-    formData.append("email", email);
-    formData.append("image", image);
-    formData.append("size", selectedSize);
-    formData.append("frame", frame);
-    formData.append("frameType", frame === "yes" ? frameType : "");
-    formData.append("address", address);
-    formData.append("totalPrice", totalPrice);
+    const payload = {
+      full_name: fullName,
+      email,
+      imageUrl,
+      size: selectedSize,
+      frame,
+      frameType: frame === "yes" ? frameType : null,
+      address,
+    };
 
     try {
       const response = await fetch(
         "https://photography-server-catq.onrender.com/api/orders",
         {
           method: "POST",
-          body: formData,
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
         }
       );
 
@@ -181,25 +197,22 @@ const Order = () => {
       if (!response.ok) {
         throw new Error(data.message || "Failed to place order");
       }
-      // SUCCESS MESSAGE
+
       setMessageTitle("Success 🎉");
       setMessageContent("Your order has been placed successfully!");
       setMessageBgColor("bg-green-500");
       setShowMessage(true);
 
-      // displayPaymentInfo();
       setShowPaymentInfo(true);
-      resetForm(); // Reset form after successful order
+      resetForm();
 
-      setTimeout(() => setShowMessage(false), 5000); // Hide after 5 seconds
+      setTimeout(() => setShowMessage(false), 5000);
     } catch (error) {
       console.error(error);
-      // alert("Order failed. Please try again.");
       setMessageTitle("Order Failed 😞");
       setMessageContent("Order failed. Please try again...");
       setMessageBgColor("bg-red-500");
       setShowMessage(true);
-
       setTimeout(() => setShowMessage(false), 5000);
     }
   };
@@ -211,21 +224,13 @@ const Order = () => {
     setSelectedSize("");
     setFrame("no");
     setFrameType("");
-    setImage(null);
+    setImageUrl("");
     setPreview(null);
     setAddress("");
     setTotalPrice(0);
     setError("");
   };
 
-  // =========================
-  // PAYMENT MODAL
-  // =========================
-  const [showPaymentInfo, setShowPaymentInfo] = useState(false);
-
-  // =========================
-  // RENDER
-  // =========================
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
@@ -253,6 +258,7 @@ const Order = () => {
                     <ImageUpload
                       onFileSelect={handleImageSelect}
                       preview={preview}
+                      disabled={loading}
                     />
                   </div>
 
@@ -295,73 +301,44 @@ const Order = () => {
                         />
                       </div>
                     )}
-                    <div className="flex flex-col gap-3 pt-4">
-                      <label className="font-medium capitalize text-text-foreground">
-                        4. Phone Number
-                      </label>
-                      <InputField
-                        type="tel"
-                        id="phone-number"
-                        value={user?.phone || ""}
-                        readOnly
-                        className="flex border border-border bg-[#e8e8cf] rounded-lg p-4 w-full mt-4 text-gray-500 cursor-not-allowed"
-                      />
-                    </div>
                   </div>
                 </div>
 
-                {/* ADDRESS */}
                 <Address
                   title="5. shipping address"
                   placeholder="Enter your full shipping address..."
                   onChange={setAddress}
                   containerClass="mt-20 flex flex-col gap-3"
                   labelClass="font-medium capitalize text-text-foreground"
-                  textareaClass="mt-4 min-h-[10rem] w-full rounded-lg border border-border bg-[#f5f5dc] px-4 py-4 text-[1.4rem] placeholder:text-muted-foreground placeholder:leading-6"
+                  textareaClass="mt-4 min-h-[10rem] w-full rounded-lg border border-border bg-[#f5f5dc] px-4 py-4 text-[1.4rem]"
                 />
               </div>
 
-              {/* FOOTER */}
               <div className="mb-8 flex items-center justify-between bg-[#f5f5dc]/50 p-[2.4rem]">
-                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-6">
-                  <span className="text-[1.8rem] font-semibold text-text-foreground leading-8">
-                    Total price:
-                  </span>
-                  {loading ? (
-                    <span className="text-[1.8rem] font-bold text-primary md:text-[2rem] leading-12">
-                      Calculating...
-                    </span>
-                  ) : (
-                    <span className="text-[2.6rem] font-bold text-primary md:text-[3rem] leading-12">
-                      ₦{totalPrice.toLocaleString()}
-                    </span>
-                  )}
-                  {/* <span className="text-[2.6rem] font-bold text-primary md:text-[3rem] leading-12">
-                    {loading
-                      ? "Calculating..."
-                      : `₦${totalPrice.toLocaleString()}`}
-                  </span> */}
-                </div>
+                <span className="text-[2.6rem] font-bold text-primary">
+                  {loading ? "Calculating..." : `₦${totalPrice.toLocaleString()}`}
+                </span>
 
                 <Button
                   type="button"
                   text="place order"
                   icon={<FaShoppingCart />}
                   onClick={handlePlaceOrder}
-                  className="flex items-center gap-4 rounded-lg bg-primary leading-6 px-4 sm:px-8 py-4 sm:py-4 text-[1.6rem] text-white hover:bg-[#af9674] sm:leading-8 capitalize"
+                  className="flex items-center gap-4 rounded-lg bg-primary px-8 py-4 text-white hover:bg-[#af9674]"
                 />
               </div>
             </form>
           </div>
         </section>
       </main>
+
       <Footer />
-      {/* PAYMENT INFO OVERLAY */}
+
       <PaymentInfo
         isOpen={showPaymentInfo}
         onClose={() => setShowPaymentInfo(false)}
       />
-      {/* UI Messages */}
+
       <Message
         title={messageTitle}
         message={messageContent}

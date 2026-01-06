@@ -1,7 +1,7 @@
 "use strict";
 
 const ImageUpload = ({
-  label = "Upload an image",
+  label = " ",
   onFileSelect,
   preview,
   disabled = false,
@@ -27,7 +27,7 @@ const ImageUpload = ({
 
   return (
     <div className="flex flex-col gap-3">
-      //<label className="capitalize text-text-foreground font-medium">
+      <label className="capitalize text-text-foreground font-medium">
         {label}
       </label>
 

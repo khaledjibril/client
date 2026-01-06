@@ -2,7 +2,6 @@
 
 import { useEffect, useState, useContext } from "react";
 import AdminSubHeader from "./AdminSubHeader";
-import SearchBar from "./SearchBar";
 import DownloadBtn from "./DownloadBtn";
 import { IoMdMenu } from "react-icons/io";
 import { GoDownload } from "react-icons/go";
@@ -19,12 +18,37 @@ const AdminOrders = () => {
       .catch((err) => console.error(err));
   }, []);
 
-  const handleDownload = (orderId) => {
-    window.open(
-      `https://photography-server-catq.onrender.com/api/orders/${orderId}/download`,
-      "_blank"
+// inside AdminOrders.jsx
+const handleDownload = async (orderId) => {
+  try {
+    const response = await fetch(
+      `https://photography-server-catq.onrender.com/api/orders/${orderId}/download`
     );
-  };
+
+    if (!response.ok) throw new Error("Download failed");
+
+    // get the filename from the order ID
+    const filename = `order-${orderId}.jpg`;
+
+    // convert response to blob
+    const blob = await response.blob();
+
+    // create temporary link to trigger download
+    const link = document.createElement("a");
+    link.href = window.URL.createObjectURL(blob);
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+
+    // cleanup
+    link.remove();
+    window.URL.revokeObjectURL(link.href);
+  } catch (err) {
+    console.error(err);
+    alert("Failed to download image");
+  }
+};
+
 
   return (
     <div className="rounded-xl shadow-sm">
@@ -41,12 +65,12 @@ const AdminOrders = () => {
       <AdminSubHeader
         containerClass="p-12 leading-12"
         title="All Orders"
-        titleClass={"text-4xl font-semibold text-text-foreground leading-12"}
+        titleClass="text-4xl font-semibold text-text-foreground leading-12"
         text="A complete list of all order items from all users."
-        textClass={"text-muted-foreground text-2xl"}
+        textClass="text-muted-foreground text-2xl"
       />
 
-      <div className="p-4 bg-background-accent">
+      <div className="p-4 bg-background-accent overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
             <tr>
@@ -54,7 +78,7 @@ const AdminOrders = () => {
                 User
               </th>
               <th className="h-12 p-8 text-left text-2xl font-medium text-muted-foreground">
-                Phone Number
+                Email
               </th>
               <th className="h-12 p-8 text-left text-2xl font-medium text-muted-foreground">
                 Order ID
@@ -80,15 +104,15 @@ const AdminOrders = () => {
           <tbody>
             {orders.map((order) => (
               <tr key={order.id} className="border-b text-2xl">
+                <td>{order.full_name}</td>
                 <td>{order.email}</td>
-                {/* Add the Phone Number Below */}
-                <td>{order.phone_number || "Phone number"}</td>
                 <td>tlc-{order.id}</td>
 
+                {/* Image uses Cloudinary URL directly */}
                 <td>
                   <div className="w-[6.4rem] h-[6.4rem] rounded-xl overflow-hidden">
                     <img
-                      src={`https://photography-server-catq.onrender.com/${order.image_path}`}
+                      src={order.image_path}
                       alt="Order"
                       className="w-full h-full object-cover"
                     />
@@ -97,7 +121,7 @@ const AdminOrders = () => {
 
                 <td>{order.size}</td>
                 <td>{order.frame === "yes" ? order.frame_type : "No Frame"}</td>
-                <td className="text-right">₦{order.total_price}</td>
+                <td className="text-right">₦{order.total_price.toLocaleString()}</td>
 
                 <td className="text-center">
                   <DownloadBtn

@@ -1,8 +1,8 @@
 import React from "react";
 
-const DownloadBtn = ({ className, text, icon, type }) => {
+const DownloadBtn = ({ className, text, icon, type, onClick }) => {
   return (
-    <button className={className} type={type}>
+    <button className={className} type={type} onClick={onClick}>
       {icon} {text}
     </button>
   );
