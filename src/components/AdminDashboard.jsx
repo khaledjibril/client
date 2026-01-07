@@ -19,6 +19,7 @@ import { MdOutlineFileUpload } from "react-icons/md";
 
 // Admin context
 import { AdminContext } from "../pages/Admin";
+import { uploadToCloudinary } from "../utils/cloudinary";
 
 const AdminDashboard = () => {
   const { toggleAside } = useContext(AdminContext);
@@ -34,12 +35,22 @@ const AdminDashboard = () => {
   const [recentUsers, setRecentUsers] = useState([]);
   const [recentOrders, setRecentOrders] = useState([]);
   const [galleryForm, setGalleryForm] = useState({
-    title: "",
-    description: "",
-    file: null,
-  });
+  title: "",
+  description: "",
+  imageUrl: "",
+});
+
 
   const [loading, setLoading] = useState(true);
+const handleImageSelect = async (file) => {
+  try {
+    const url = await uploadToCloudinary(file);
+    setGalleryForm((prev) => ({ ...prev, imageUrl: url }));
+  } catch (err) {
+    console.error(err);
+    alert("Image upload failed");
+  }
+};
 
   // Fetch dashboard data
   useEffect(() => {
@@ -117,32 +128,29 @@ const AdminDashboard = () => {
   };
 
   // Submit gallery
-  const handleUpload = async () => {
-    if (!galleryForm.title || !galleryForm.description || !galleryForm.file) {
-      alert("All fields are required.");
-      return;
-    }
+const handleUpload = async () => {
+  if (!galleryForm.title || !galleryForm.description || !galleryForm.imageUrl) {
+    alert("All fields are required.");
+    return;
+  }
 
-    const formData = new FormData();
-    formData.append("title", galleryForm.title);
-    formData.append("description", galleryForm.description);
-    formData.append("file", galleryForm.file);
+  try {
+    await axios.post(
+      "https://photography-server-catq.onrender.com/api/admin/gallery",
+      {
+        title: galleryForm.title,
+        description: galleryForm.description,
+        imageUrl: galleryForm.imageUrl,
+      }
+    );
 
-    try {
-      await axios.post(
-        "https://photography-server-catq.onrender.com/api/admin/gallery",
-        formData,
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-        }
-      );
-      alert("Image uploaded successfully!");
-      setGalleryForm({ title: "", description: "", file: null });
-    } catch (err) {
-      console.error("Upload error:", err);
-      alert("Upload failed!");
-    }
-  };
+    alert("Image added to gallery!");
+    setGalleryForm({ title: "", description: "", imageUrl: "" });
+  } catch (err) {
+    console.error("Upload error:", err);
+    alert("Upload failed!");
+  }
+};
 
   if (loading)
     return <p className="text-center text-2xl mt-12">Loading dashboard...</p>;
@@ -243,9 +251,8 @@ const AdminDashboard = () => {
           </div>
 
           <ImageUpload
-            label={"Image File"}
-            onChange={handleChange}
-            name="file"
+          label="Image File"
+          onFileSelect={handleImageSelect}
           />
         </div>
 
